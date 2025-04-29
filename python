@@ -1,4 +1,5 @@
-import streamlit as st
+# -- coding: utf-8 --
+
 import streamlit.components.v1 as components
 import pandas as pd
 import difflib
@@ -6,53 +7,70 @@ import re
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
-
-# Load cleaned IMDb data using the full Windows file path (raw string)
-df = pd.read_csv("imdb_cleaned.csv")
-
-# Check if the 'resume' column exists; if not, print available columns
-if 'resume' not in df.columns:
-    st.error("The 'resume' column was not found in the CSV file. Available columns: " + ", ".join(df.columns))
-    st.stop()
-
-# TF-IDF vectorizer for movie summaries
-vectorizer = TfidfVectorizer(stop_words='english')
-tfidf_matrix = vectorizer.fit_transform(df['resume'])
-
-# Set up Streamlit configuration
-st.set_page_config(page_title="Smart Movie Chatbot", layout="wide")
-
-
-# --- Custom HTML for visual design ---
-import streamlit as st
-import streamlit.components.v1 as components
 import base64
+import speech_recognition as sr
+import pyttsx3
+import urllib.parse
+import time
+import random
+import nltk
+from textblob import TextBlob
+from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
+from sentence_transformers import SentenceTransformer, util
+import torch
 
-# Convert the image to base64
-def get_image_base64(image_path):
-    with open(image_path, "rb") as img_file:
-        b64_string = base64.b64encode(img_file.read()).decode("utf-8")
-    return b64_string
+st.set_page_config("Filmo - Movie Assistant", layout="wide")
+st.title("Welcome to Filmo")
 
-# Get the base64 version of Filmo.png
-filmo_img_b64 = get_image_base64("Filmo.png")
+# Load IMDb data
+df = pd.read_csv("imdbspe_fixed.csv")
 
-# Create the HTML image tag with base64
-filmo_img_tag = f'<img src="data:image/png;base64,{filmo_img_b64}" alt="Filmo Image" width="350" style="border-radius: 2rem; box-shadow: 0 0 20px #a855f7;" />'
+required_columns = ['resume', 'nom', 'date', 'rate', 'cover', 'genre', 'director', 'imdb_id']
+for col in required_columns:
+    if col not in df.columns:
+        df[col] = ""
 
-# Display custom HTML using Streamlit components
+# TF-IDF setup
+tfidf = TfidfVectorizer(stop_words='english')
+tfidf_matrix = tfidf.fit_transform(df['resume'].fillna(""))
+
+# Sentence Transformer setup
+@st.cache_resource
+def load_model_and_embeddings():
+    model = SentenceTransformer('all-MiniLM-L6-v2')
+    descriptions = df['resume'].fillna("").tolist()
+    embeddings = model.encode(descriptions, convert_to_tensor=True)
+    return model, embeddings
+
+model, movie_embeddings = load_model_and_embeddings()
+
+# Memory store
+if 'last_filters' not in st.session_state:
+    st.session_state['last_filters'] = {}
+if 'last_results' not in st.session_state:
+    st.session_state['last_results'] = []
+
+# Image base64
+@st.cache_data
+def get_image_base64(path):
+    with open(path, "rb") as f:
+        return base64.b64encode(f.read()).decode()
+
+img_b64 = get_image_base64("Filmo.png")
+filmo_img_tag = f'<img src="data:image/png;base64,{img_b64}" width="350">'
+
+# Header
 components.html(f"""
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
   <style>
     body {{
-      background-color: #32004d;
+      background: linear-gradient(90deg, #3f2a9b 0%, #9c57c7 51%, #498cb8 100%);
       font-family: Arial, Helvetica, sans-serif;
     }}
     .all {{
       display: flex;
-      flex-direction: row;
       justify-content: space-around;
       align-items: center;
       padding: 10px;
@@ -62,16 +80,13 @@ components.html(f"""
       padding-top: 10px;
     }}
     .text h1 {{
-       font-size: 100px;
-        margin-bottom: 1px;
-        text-shadow: 0 0 10px rgba(205, 4, 148, 0.895),
-          0 0 20px rgba(49, 10, 125, 0.895), 0 0 30px rgba(203, 81, 170, 0.895),
-          0 0 40px rgba(0, 238, 255, 0.9), 0 0 50px rgba(18, 33, 201, 0.9);
+      font-size: 100px;
+      margin-bottom: 1px;
+      text-shadow: 0 0 10px #cd0494, 0 0 20px #310a7d, 0 0 30px #cb51aa, 0 0 40px #00eeff, 0 0 50px #1221c9;
     }}
     .text p {{
       font-size: 20px;
       padding-top: 10px;
-      letter-spacing: 0.5px;
     }}
     button {{
       margin-top: 10px;
@@ -94,15 +109,10 @@ components.html(f"""
     <div class="text">
       <h1><b>ASK FILMO</b></h1>
       <p>
-        Filmo is a small, friendly chatbot designed to help you <br />
-          discover movies in a fun and easy way. Whether you’re<br />
-          looking for something new to watch or just want to <br />
-          chat about your favorite films, Filmo is always ready<br />
-          with suggestions and film facts. Simple, smart, and <br />
-          always curious, Filmo is like having a tiny movie buddy<br />
-          in your pocket!
+        Filmo is a smart movie chatbot to help you<br/>
+        discover and explore great films. Ask anything,<br/>
+        from genre to vibe to recommendations!
       </p>
-      
     </div>
     {filmo_img_tag}
   </div>
@@ -110,189 +120,189 @@ components.html(f"""
 </html>
 """, height=500)
 
-# --- Improved Natural Language Query Parser ---
+# Clean query
+def clean_query(query):
+    words = re.findall(r"\b\w+\b", query.lower())
+    return " ".join(w for w in words if w not in set(["a", "the", "movie", "film", "find", "show", "watch"]))
+
+def mood_to_genres(text):
+    mood_map = {
+        "sad": ["drama", "romance"],
+        "happy": ["comedy", "family"],
+        "romantic": ["romance", "drama"],
+        "bored": ["thriller", "mystery"],
+        "adventurous": ["action", "adventure", "fantasy"],
+        "scared": ["horror", "thriller"]
+    }
+    found = []
+    for mood, genres in mood_map.items():
+        if mood in text:
+            found.extend(genres)
+    return list(set(found))
+
+def analyze_sentiment(text):
+    blob = TextBlob(text)
+    polarity = blob.sentiment.polarity
+    if polarity > 0.1:
+        return "happy"
+    elif polarity < -0.1:
+        return "sad"
+    else:
+        return "neutral"
+
+def vader_sentiment_analysis(text):
+    analyzer = SentimentIntensityAnalyzer()
+    score = analyzer.polarity_scores(text)
+    return score['compound']
+
 def parse_query(query):
-    query = query.lower()
     filters = {}
+    q = clean_query(query)
+    mood = analyze_sentiment(q)
+    mood_genres = mood_to_genres(mood)
+    if mood_genres:
+        filters['genre'] = mood_genres
 
-    # Extract years (e.g., 90s, 2020-2025, etc.)
-    years = re.findall(r"(19\d{2}|20\d{2})|(\d{2})\s?(?:s|st)", query)
-    if years:
-        filters['date'] = []
-        for year in years:
-            if year[0]:
-                filters['date'].append(int(year[0]))
-            elif year[1]:
-                filters['date'].append(1900 + int(year[1]))  # e.g., '90s' -> 1990
+    genres = df['genre'].dropna().unique().tolist()
+    for g in genres:
+        if isinstance(g, str):
+            for genre in g.split(','):
+                if genre.strip().lower() in q:
+                    filters.setdefault('genre', []).append(genre.strip())
 
-    # Rating handling
-    if "high rating" in query or "bien noté" in query or "well rated" in query:
-        filters['rate'] = (7.0, 10.0)
-    elif "top" in query or "best" in query:
+    for d in df['director'].dropna().unique():
+        if isinstance(d, str) and d.lower() in q:
+            filters['director'] = d
+
+    year_match = re.findall(r"(19\d{2}|20\d{2})", q)
+    if year_match:
+        filters['date'] = list(map(int, year_match))
+
+    if "top" in q or "best" in q:
         filters['rate'] = (8.0, 10.0)
-    elif "low rating" in query:
+    elif "bad" in q or "worst" in q:
         filters['rate'] = (0.0, 4.0)
 
-    # Genre keywords (expanded)
-    genres = ["action", "comedy", "thriller", "romance", "horror", "animation", "drama", "fantasy", "documentary", "crime", "adventure"]
-    for genre in genres:
-        if genre in query:
-            filters['genre'] = genre
-
-    # Handle complex keyword searches
-    filters['keywords'] = query
-
+    filters['keywords'] = q
     return filters
 
-# --- Filter & Search Function with Dynamic Range (Sliders) ---
 def search_movies(filters):
     results = df.copy()
 
-    # Dynamic year range slider
     if 'date' in filters:
-        min_year = st.slider("Select year range", int(df['date'].min()), int(df['date'].max()),
-                               (int(df['date'].min()), int(df['date'].max())))
-        results = results[(results['date'] >= min_year[0]) & (results['date'] <= min_year[1])]
+        results = results[results['date'].isin(filters['date'])]
 
-    # Filter by rating range slider
     if 'rate' in filters:
         min_r, max_r = filters['rate']
-        rating_range = st.slider("Select rating range", 0.0, 10.0, (min_r, max_r))
-        results = results[(results['rate'] >= rating_range[0]) & (results['rate'] <= rating_range[1])]
+        results = results[(results['rate'] >= min_r) & (results['rate'] <= max_r)]
 
-    # Filter by genre (using multiselect)
-    selected_genre = st.multiselect("Choose genres", ["Action", "Comedy", "Thriller", "Romance", "Horror", "Animation", "Drama", "Fantasy", "Documentary", "Crime", "Adventure"])
-    if selected_genre:
-        results = results[results['resume'].str.contains('|'.join(selected_genre), case=False, na=False)]
+    if 'genre' in filters:
+        for g in filters['genre']:
+            results = results[results['genre'].str.contains(g, case=False, na=False)]
 
-    # Keyword search in title and description
+    if 'director' in filters:
+        results = results[results['director'].str.contains(filters['director'], case=False, na=False)]
+
     if 'keywords' in filters:
         kw = filters['keywords']
-        results = results[results['nom'].str.contains(kw, case=False, na=False) |
-                          results['resume'].str.contains(kw, case=False, na=False)]
+        results = results[results['resume'].str.contains(kw, case=False, na=False) |
+                          results['nom'].str.contains(kw, case=False, na=False)]
 
-    return results.head(15)
+    return results.head(10)
 
-# --- Smart Recommendations ---
+def semantic_search(query, top_k=10):
+    query_embedding = model.encode(query, convert_to_tensor=True)
+    scores = util.cos_sim(query_embedding, movie_embeddings)[0]
+    top_results = torch.topk(scores, k=top_k)
+    indices = top_results.indices.cpu().numpy()
+    return df.iloc[indices]
+
+@st.cache_data
 def recommend_movies(title):
-    matches = difflib.get_close_matches(title, df['nom'], n=1, cutoff=0.6)
-    if not matches:
-        return []
-    idx = df[df['nom'] == matches[0]].index[0]
+    match = difflib.get_close_matches(title, df['nom'], n=1, cutoff=0.6)
+    if not match: return []
+    idx = df[df['nom'] == match[0]].index[0]
     sim_scores = cosine_similarity(tfidf_matrix[idx], tfidf_matrix).flatten()
-    similar_indices = sim_scores.argsort()[::-1][1:6]  # Top 5 similar movies
-    return df.iloc[similar_indices]
+    similar_idxs = sim_scores.argsort()[::-1][1:6]
+    return df.iloc[similar_idxs]
 
-# --- User Feedback ---
-def movie_feedback():
-    st.write("Did you like the movie suggestions?")
-    like = st.button("👍 Yes")
-    dislike = st.button("👎 No")
-    if like:
-        st.write("Great! We'll try to suggest more like this.")
-    if dislike:
-        st.write("Sorry about that! We'll improve our suggestions next time.")
+def trailer_link(title):
+    query = urllib.parse.quote(title + " trailer")
+    return f"https://www.youtube.com/results?search_query={query}"
 
-import streamlit as st
-
-# Inject bold, glowing custom styles for the search bar
-import streamlit as st
-
-# Inject bold, glowing custom styles for the search bar
-st.markdown("""
-    <style>
-    /* Pulsing animation for glowing effect */
-    @keyframes pulse {
-        0% {
-            box-shadow: 0 0 15px #a855f7, 0 0 25px #9333ea, 0 0 40px #7e22ce;
-        }
-        50% {
-            box-shadow: 0 0 30px #d946ef, 0 0 50px #c026d3, 0 0 80px #7c3aed;
-        }
-        100% {
-            box-shadow: 0 0 15px #a855f7, 0 0 25px #9333ea, 0 0 40px #7e22ce;
-        }
+def streaming_link(title):
+    platforms = {
+        "Netflix": ("https://www.netflix.com/search?q=", "https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg"),
+        "Amazon Prime": ("https://www.amazon.com/s?k=", "https://upload.wikimedia.org/wikipedia/commons/f/f1/Prime_Video.png"),
+        "Hulu": ("https://www.hulu.com/search?q=", "https://upload.wikimedia.org/wikipedia/commons/e/e4/Hulu_Logo.svg")
     }
+    platform, (link, logo_url) = random.choice(list(platforms.items()))
+    return f'<img src="{logo_url}" width="80"> [Watch on {platform}]({link + urllib.parse.quote(title)})'
 
-    /* Customizing input field for better design */
-    .stTextInput>div>div>input {
-        background-color: #2e003e; /* Dark background for input */
-        border: 2px solid #9333ea; /* Purple border */
-        border-radius: 1.5rem; /* Rounded corners */
-        padding: 1rem 1.5rem;
-        font-size: 1.2rem;
-        font-weight: 700;
-        color: #fff; /* White text */
-        animation: pulse 3s infinite; /* Glowing pulse effect */
-        transition: all 0.4s ease-in-out; /* Smooth transitions */
-    }
+def imdb_link(imdb_id):
+    if not imdb_id or imdb_id == "":
+        return ""
+    logo_url = "https://upload.wikimedia.org/wikipedia/commons/6/69/IMDB_Logo_2016.svg"
+    return f'<img src="{logo_url}" width="50"> [View on IMDb](https://www.imdb.com/title/{imdb_id}/)'
 
-    /* Focus effect on input */
-    .stTextInput>div>div>input:focus {
-        border-color: #f0abfc;
-        box-shadow: 0 0 15px #f0abfc, 0 0 25px #e879f9, 0 0 35px #c026d3;
-        outline: none; /* Remove default outline */
-    }
+def speak_text(text):
+    engine = pyttsx3.init()
+    engine.say(text)
+    engine.runAndWait()
 
-    /* Label style for search input */
-    label[for="search_input"] {
-        font-size: 1.3rem;
-        color: #f0abfc;
-        text-shadow: 0 0 8px #9333ea, 0 0 15px #e879f9;
-        font-weight: 800;
-        letter-spacing: 0.05em;
-    }
+def listen_to_audio():
+    r = sr.Recognizer()
+    with sr.Microphone() as source:
+        st.write("🎤 Listening...")
+        audio = r.listen(source)
+        try:
+            recognized_text = r.recognize_google(audio)
+            st.success(f"You said: {recognized_text}")
+            return recognized_text
+        except:
+            st.warning("Sorry, I couldn't understand that.")
+            return ""
 
-    /* Placeholder style inside input field */
-    ::placeholder {
-        color: #d8b4fe;
-        opacity: 0.7;
-        font-style: italic;
-    }
+with st.form("query_form"):
+    user_input = st.text_input("💬 Ask Filmo anything about movies (genre, mood, director, etc):")
+    submit = st.form_submit_button("🔍 Search")
 
-    /* Hover effect on the input field */
-    .stTextInput>div>div>input:hover {
-        background-color: #3b0657;
-        border-color: #c026d3;
-    }
+if st.button("🎙 Speak instead"):
+    user_input = listen_to_audio()
+    submit = True
 
-    /* Add subtle glowing effect to the placeholder */
-    ::placeholder {
-        text-shadow: 0 0 10px #a855f7, 0 0 15px #7c3aed, 0 0 20px #9333ea;
-    }
+if submit and user_input:
+    with st.spinner('Searching for movies...'):
+        time.sleep(1)
 
-    /* Optional - Add a smooth pulse animation to label when focused */
-    .stTextInput:focus-within label[for="search_input"] {
-        animation: pulse 2s infinite;
-    }
-    </style>
-""", unsafe_allow_html=True)
+        filters = parse_query(user_input)
+        results = search_movies(filters)
+        st.session_state['last_filters'] = filters
+        st.session_state['last_results'] = results['nom'].tolist()
 
-# Search input with custom glowing style
-with st.form(key="search_form"):
-    query = st.text_input("🔮 Entrez un film, une question ou un genre magique:", key="search_input")
-    search_button = st.form_submit_button("🔍 Rechercher")
-# When the user provides a query, filter and display the results
-if query:
-    filters = parse_query(query)
-    results = search_movies(filters)
-    
-    # If results are found, display them
-    if not results.empty:
-        st.subheader("🎯 Résultats de recherche")
-        for _, row in results.iterrows():
-            col1, col2 = st.columns([1, 3])
-            with col1:
-                st.image(row['cover'], width=120)
-            with col2:
-                st.markdown(f"*{row['nom']} ({row['date']})* - ⭐ {row['rate']}/10")
+        if results.empty:
+            st.info("No exact matches found. Trying a semantic match...")
+            results = semantic_search(user_input)
+
+        if not results.empty:
+            for _, row in results.iterrows():
+                st.image(row['cover'], width=150)
+                st.markdown(f"{row['nom']}** ({row['date']}) - ⭐ {row['rate']}/10")
                 st.markdown(row['resume'])
-                with st.expander("🔁 Suggestions similaires"):
+                st.markdown(f"▶ [Watch Trailer]({trailer_link(row['nom'])})")
+                st.markdown(streaming_link(row['nom']), unsafe_allow_html=True)
+                st.markdown(imdb_link(row['imdb_id']), unsafe_allow_html=True)
+                speak_text(f"Here's a movie you may like: {row['nom']} released in {row['date']}. Rating: {row['rate']}")
+                sentiment = vader_sentiment_analysis(row['resume'])
+                st.markdown(f"Sentiment Score: {sentiment} (Positive if > 0.1, Negative if < -0.1)")
+
+                with st.expander("🔁 Similar Movies"):
                     recs = recommend_movies(row['nom'])
-                    for _, sim in recs.iterrows():
-                        st.markdown(f"- {sim['nom']} ({sim['date']})")
-    else:
-        st.warning("😓 Aucun film trouvé... Essayez une autre incantation.")
-    
-    # Movie feedback for user satisfaction
-    movie_feedback()
+                    for _, r in recs.iterrows():
+                        st.markdown(f"- {r['nom']} ({r['date']})")
+        else:
+            st.warning("No results found. Try another mood, genre, or director.")
+
+if st.button("🎲 Random Fun Fact"):
+    random_movie = df.sample(1).iloc[0]
+    st.write(f"Fun fact: Did you know that {random_movie['nom']} was directed by {random_movie['director']}?")
