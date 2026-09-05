@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Filmo — Smart Movie Assistant & Recommendations</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0b0914;
+      --bg-card: rgba(22, 18, 38, 0.7);
+      --border-card: rgba(147, 51, 234, 0.25);
+      --primary: #9333ea;
+      --primary-glow: rgba(147, 51, 234, 0.4);
+      --accent: #06b6d4;
+      --pink: #ec4899;
+      --text: #f3f4f6;
+      --text-muted: #9ca3af;
+      --gold: #fbbf24;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: radial-gradient(circle at 50% -20%, #2e1065 0%, #0b0914 70%);
+      color: var(--text);
+      min-height: 100vh;
+      padding-bottom: 60px;
+    }
+
+    header {
+      background: rgba(11, 9, 20, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-card);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 16px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 28px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #a855f7 0%, #ec4899 50%, #06b6d4 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.5px;
+    }
+
+    .hero {
+      max-width: 1200px;
+      margin: 40px auto 30px;
+      padding: 0 20px;
+      text-align: center;
+    }
+
+    .hero h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(32px, 5vw, 54px);
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+
+    .hero h2 span {
+      background: linear-gradient(135deg, #d8b4fe 0%, #818cf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      font-size: 16px;
+      color: var(--text-muted);
+      max-width: 650px;
+      margin: 0 auto 30px;
+    }
+
+    .controls-card {
+      max-width: 1000px;
+      margin: 0 auto 40px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: 24px;
+      padding: 24px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .search-row {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .search-input {
+      flex: 1;
+      background: rgba(15, 12, 28, 0.8);
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      border-radius: 14px;
+      padding: 14px 20px;
+      color: #fff;
+      font-size: 16px;
+      font-family: inherit;
+      outline: none;
+      transition: all 0.3s;
+    }
+
+    .search-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 20px var(--primary-glow);
+    }
+
+    .btn {
+      background: linear-gradient(135deg, var(--primary) 0%, #7e22ce 100%);
+      color: white;
+      border: none;
+      border-radius: 14px;
+      padding: 14px 24px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.25s;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px var(--primary-glow);
+    }
+
+    .btn-voice {
+      background: rgba(6, 182, 212, 0.15);
+      border: 1px solid rgba(6, 182, 212, 0.4);
+      color: var(--accent);
+    }
+
+    .btn-voice:hover {
+      background: rgba(6, 182, 212, 0.25);
+      box-shadow: 0 6px 20px rgba(6, 182, 212, 0.3);
+    }
+
+    .btn-voice.listening {
+      animation: pulse 1.5s infinite;
+      background: rgba(236, 72, 153, 0.25);
+      border-color: var(--pink);
+      color: var(--pink);
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.04); }
+    }
+
+    .mood-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .mood-label {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+      margin-right: 6px;
+    }
+
+    .chip {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text);
+      border-radius: 30px;
+      padding: 8px 16px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .chip:hover, .chip.active {
+      background: rgba(168, 85, 247, 0.2);
+      border-color: var(--primary);
+      color: #fff;
+    }
+
+    .filters-row {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    select {
+      background: rgba(15, 12, 28, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 10px;
+      padding: 8px 14px;
+      color: #fff;
+      font-family: inherit;
+      outline: none;
+    }
+
+    .grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .movie-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: 20px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s;
+      position: relative;
+    }
+
+    .movie-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 14px 30px rgba(147, 51, 234, 0.25);
+    }
+
+    .poster-wrap {
+      width: 100%;
+      height: 380px;
+      background: #000;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .poster-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s;
+    }
+
+    .movie-card:hover .poster-img {
+      transform: scale(1.05);
+    }
+
+    .rating-badge {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      background: rgba(11, 9, 20, 0.85);
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      font-weight: 700;
+      font-size: 13px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      backdrop-filter: blur(8px);
+    }
+
+    .card-body {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .movie-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 19px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: #fff;
+    }
+
+    .movie-meta {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    .movie-summary {
+      font-size: 13px;
+      line-height: 1.6;
+      color: #d1d5db;
+      margin-bottom: 16px;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .card-actions {
+      margin-top: auto;
+      display: flex;
+      gap: 10px;
+    }
+
+    .link-btn {
+      flex: 1;
+      text-align: center;
+      padding: 10px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .link-trailer {
+      background: rgba(236, 72, 153, 0.15);
+      border: 1px solid rgba(236, 72, 153, 0.3);
+      color: var(--pink);
+    }
+
+    .link-trailer:hover {
+      background: rgba(236, 72, 153, 0.3);
+    }
+
+    .link-imdb {
+      background: rgba(251, 191, 36, 0.15);
+      border: 1px solid rgba(251, 191, 36, 0.3);
+      color: var(--gold);
+    }
+
+    .link-imdb:hover {
+      background: rgba(251, 191, 36, 0.3);
+    }
+
+    .fact-bar {
+      max-width: 1000px;
+      margin: 30px auto;
+      padding: 16px 24px;
+      background: rgba(6, 182, 212, 0.1);
+      border: 1px solid rgba(6, 182, 212, 0.3);
+      border-radius: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .fact-text {
+      font-size: 14px;
+      color: #7dd3fc;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 60px;
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand">
+      <h1>🎬 FILMO</h1>
+    </div>
+    <button class="btn btn-voice" onclick="getRandomFact()">🎲 Random Fact</button>
+  </header>
+
+  <div class="hero">
+    <h2>Discover Your Next <span>Favorite Movie</span></h2>
+    <p>Ask Filmo anything — filter by mood, genre, director, or talk directly using voice recognition!</p>
+  </div>
+
+  <div class="controls-card">
+    <div class="search-row">
+      <input type="text" id="searchInput" class="search-input" placeholder="Search by title, director, or keyword (e.g. Nolan, Sci-Fi, Crime)..." oninput="renderMovies()">
+      <button class="btn btn-voice" id="voiceBtn" onclick="toggleVoice()">🎤 Speak</button>
+      <button class="btn" onclick="renderMovies()">🔍 Search</button>
+    </div>
+
+    <div class="mood-row">
+      <span class="mood-label">Vibe & Mood:</span>
+      <button class="chip" onclick="setMood('all')">All Movies</button>
+      <button class="chip" onclick="setMood('happy')">😄 Happy / Feel Good</button>
+      <button class="chip" onclick="setMood('sad')">😢 Drama / Emotional</button>
+      <button class="chip" onclick="setMood('adventurous')">🚀 Adventurous</button>
+      <button class="chip" onclick="setMood('scared')">😱 Horror / Thriller</button>
+      <button class="chip" onclick="setMood('top')">⭐ Top Rated (8+)</button>
+    </div>
+
+    <div class="filters-row">
+      <select id="genreSelect" onchange="renderMovies()">
+        <option value="">All Genres</option>
+      </select>
+      <select id="directorSelect" onchange="renderMovies()">
+        <option value="">All Directors</option>
+      </select>
+      <span id="resultsCount" style="margin-left: auto; font-size: 13px; color: var(--text-muted);"></span>
+    </div>
+  </div>
+
+  <div id="factBar" class="fact-bar" style="display:none;">
+    <span class="fact-text" id="factContent"></span>
+    <button class="chip" onclick="document.getElementById('factBar').style.display='none'">✕</button>
+  </div>
+
+  <div class="grid" id="movieGrid"></div>
+
+  <footer>
+    <p>Filmo Movie Assistant — Powered by Client-side AI & IMDb Database</p>
+  </footer>
+
+  <script>
+    let movies = [];
+    let currentMood = 'all';
+
+    // Parse CSV helper
+    function parseCSV(text) {
+      const lines = text.trim().split('\n');
+      const headers = lines[0].split(',').map(h => h.trim());
+      const result = [];
+
+      for (let i = 1; i < lines.length; i++) {
+        let line = lines[i];
+        if (!line) continue;
+        
+        let row = [];
+        let inQuotes = false;
+        let val = '';
+        
+        for (let c of line) {
+          if (c === '"') {
+            inQuotes = !inQuotes;
+          } else if (c === ',' && !inQuotes) {
+            row.push(val.trim());
+            val = '';
+          } else {
+            val += c;
+          }
+        }
+        row.push(val.trim());
+
+        if (row.length >= headers.length) {
+          let item = {};
+          headers.forEach((h, idx) => item[h] = row[idx] || '');
+          result.push(item);
+        }
+      }
+      return result;
+    }
+
+    async function loadData() {
+      try {
+        const res = await fetch('imdbspe_fixed.csv');
+        const csvText = await res.text();
+        movies = parseCSV(csvText);
+        populateDropdowns();
+        renderMovies();
+      } catch (err) {
+        console.error("Failed to load CSV:", err);
+      }
+    }
+
+    function populateDropdowns() {
+      const genres = new Set();
+      const directors = new Set();
+
+      movies.forEach(m => {
+        if (m.genre) genres.add(m.genre);
+        if (m.director) directors.add(m.director);
+      });
+
+      const genreSelect = document.getElementById('genreSelect');
+      Array.from(genres).sort().forEach(g => {
+        const opt = document.createElement('option');
+        opt.value = g;
+        opt.textContent = g;
+        genreSelect.appendChild(opt);
+      });
+
+      const directorSelect = document.getElementById('directorSelect');
+      Array.from(directors).sort().forEach(d => {
+        const opt = document.createElement('option');
+        opt.value = d;
+        opt.textContent = d;
+        directorSelect.appendChild(opt);
+      });
+    }
+
+    function setMood(mood) {
+      currentMood = mood;
+      document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+      event.target.classList.add('active');
+      renderMovies();
+    }
+
+    function renderMovies() {
+      const q = document.getElementById('searchInput').value.toLowerCase().trim();
+      const genre = document.getElementById('genreSelect').value;
+      const director = document.getElementById('directorSelect').value;
+
+      const filtered = movies.filter(m => {
+        const matchesQ = !q || m.nom.toLowerCase().includes(q) || m.resume.toLowerCase().includes(q) || m.director.toLowerCase().includes(q);
+        const matchesGenre = !genre || m.genre === genre;
+        const matchesDirector = !director || m.director === director;
+
+        let matchesMood = true;
+        const rate = parseFloat(m.rate) || 0;
+        if (currentMood === 'top') matchesMood = rate >= 8.0;
+        else if (currentMood === 'happy') matchesMood = ['Comedy', 'Family', 'Animation'].includes(m.genre);
+        else if (currentMood === 'sad') matchesMood = ['Drama', 'Romance'].includes(m.genre);
+        else if (currentMood === 'adventurous') matchesMood = ['Action', 'Adventure', 'Fantasy', 'Sci-Fi'].includes(m.genre);
+        else if (currentMood === 'scared') matchesMood = ['Horror', 'Thriller'].includes(m.genre);
+
+        return matchesQ && matchesGenre && matchesDirector && matchesMood;
+      });
+
+      document.getElementById('resultsCount').textContent = `Found ${filtered.length} movies`;
+
+      const grid = document.getElementById('movieGrid');
+      grid.innerHTML = '';
+
+      filtered.slice(0, 30).forEach(m => {
+        const card = document.createElement('div');
+        card.className = 'movie-card';
+        card.innerHTML = `
+          <div class="poster-wrap">
+            <img class="poster-img" src="${m.cover}" alt="${m.nom}" onerror="this.src='Filmo.png'">
+            <span class="rating-badge">⭐ ${m.rate || 'N/A'}</span>
+          </div>
+          <div class="card-body">
+            <h3 class="movie-title">${m.nom}</h3>
+            <div class="movie-meta">${m.date || ''} • ${m.genre || ''} • Dir. ${m.director || 'N/A'}</div>
+            <p class="movie-summary">${m.resume || ''}</p>
+            <div class="card-actions">
+              <a href="https://www.youtube.com/results?search_query=${encodeURIComponent(m.nom + ' trailer')}" target="_blank" class="link-btn link-trailer">▶ Trailer</a>
+              <a href="https://www.imdb.com/title/${m.imdb_id || ''}" target="_blank" class="link-btn link-imdb">IMDb</a>
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function getRandomFact() {
+      if (!movies.length) return;
+      const m = movies[Math.floor(Math.random() * movies.length)];
+      const fact = `🎲 Did you know? "${m.nom}" (${m.date}) was directed by ${m.director} with an IMDb rating of ${m.rate}/10!`;
+      document.getElementById('factContent').textContent = fact;
+      document.getElementById('factBar').style.display = 'flex';
+
+      // Speak fact
+      if ('speechSynthesis' in window) {
+        const msg = new SpeechSynthesisUtterance(fact);
+        window.speechSynthesis.speak(msg);
+      }
+    }
+
+    // Voice recognition
+    function toggleVoice() {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) {
+        alert("Voice recognition is not supported in your browser.");
+        return;
+      }
+
+      const btn = document.getElementById('voiceBtn');
+      const recognition = new SpeechRecognition();
+      recognition.lang = 'en-US';
+
+      recognition.onstart = function() {
+        btn.classList.add('listening');
+        btn.textContent = '🎙 Listening...';
+      };
+
+      recognition.onresult = function(e) {
+        const transcript = e.results[0][0].transcript;
+        document.getElementById('searchInput').value = transcript;
+        renderMovies();
+      };
+
+      recognition.onend = function() {
+        btn.classList.remove('listening');
+        btn.textContent = '🎤 Speak';
+      };
+
+      recognition.start();
+    }
+
+    loadData();
+  </script>
+</body>
+</html>
