@@ -1,4 +1,4 @@
-# 🎬 Filmo — NLP Semantic Movie Recommendation & Conversational Assistant
+# Filmo — NLP Semantic Movie Recommendation & Conversational Assistant
 
 [![Python](https://img.shields.io/badge/Python-3.9_%7C_3.10_%7C_3.11-3776ab?logo=python&logoColor=white)](https://www.python.org/)
 [![Streamlit](https://img.shields.io/badge/Frontend-Streamlit-FF4B4B?logo=streamlit&logoColor=white)](https://streamlit.io/)
@@ -10,7 +10,7 @@
 
 ---
 
-## 🏛️ Algorithmic Architecture
+## ️ Algorithmic Architecture
 
 ```
  ┌────────────────────────────────────────────────────────────────────────┐
@@ -48,7 +48,7 @@
 
 ---
 
-## ✨ Features
+## Features
 
 - **Hybrid Information Retrieval:** Merges semantic deep neural embeddings with classic lexical keyword weighting to eliminate the vocabulary mismatch problem.
 - **Multimodal Interaction:** Supports speech input via `SpeechRecognition` and voice feedback through local `pyttsx3` text-to-speech synthesis.
@@ -57,7 +57,7 @@
 
 ---
 
-## 🛠️ Quickstart
+## ️ Quickstart
 
 ### Prerequisites
 - Python 3.9+
@@ -85,7 +85,7 @@ streamlit run app.py
 
 ---
 
-## 📁 Repository Structure
+## Repository Structure
 
 ```
 chatbot/
@@ -101,7 +101,7 @@ chatbot/
 
 ---
 
-## 👩‍💻 Author
+## ‍ Author
 
 **Yasmine Daoudi**  
 *Computer Science & Software Engineering Student*  
