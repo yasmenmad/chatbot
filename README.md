@@ -6,6 +6,8 @@
 [![Scikit-Learn](https://img.shields.io/badge/ML-Scikit--Learn-F7931E?logo=scikit-learn&logoColor=white)](https://scikit-learn.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+> **Live Web Deployment:** [https://yasmenmad.github.io/chatbot/](https://yasmenmad.github.io/chatbot/)
+
 An applied Natural Language Processing (NLP) and information retrieval system that provides semantic search and sentiment-calibrated movie recommendations over curated IMDb film corpora.
 
 ---

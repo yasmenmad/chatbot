@@ -376,9 +376,9 @@
 
   <header>
     <div class="brand">
-      <h1>🎬 FILMO</h1>
+      <h1>FILMO - AI CINEMA INTELLIGENCE</h1>
     </div>
-    <button class="btn btn-voice" onclick="getRandomFact()">🎲 Random Fact</button>
+    <button class="btn btn-voice" onclick="getRandomFact()">Curated Insight</button>
   </header>
 
   <div class="hero">
@@ -389,18 +389,18 @@
   <div class="controls-card">
     <div class="search-row">
       <input type="text" id="searchInput" class="search-input" placeholder="Search by title, director, or keyword (e.g. Nolan, Sci-Fi, Crime)..." oninput="renderMovies()">
-      <button class="btn btn-voice" id="voiceBtn" onclick="toggleVoice()">🎤 Speak</button>
-      <button class="btn" onclick="renderMovies()">🔍 Search</button>
+      <button class="btn btn-voice" id="voiceBtn" onclick="toggleVoice()">Voice Query</button>
+      <button class="btn" onclick="renderMovies()">Search</button>
     </div>
 
     <div class="mood-row">
       <span class="mood-label">Vibe & Mood:</span>
       <button class="chip" onclick="setMood('all')">All Movies</button>
-      <button class="chip" onclick="setMood('happy')">😄 Happy / Feel Good</button>
-      <button class="chip" onclick="setMood('sad')">😢 Drama / Emotional</button>
-      <button class="chip" onclick="setMood('adventurous')">🚀 Adventurous</button>
-      <button class="chip" onclick="setMood('scared')">😱 Horror / Thriller</button>
-      <button class="chip" onclick="setMood('top')">⭐ Top Rated (8+)</button>
+      <button class="chip" onclick="setMood('happy')">Uplifting / Optimistic</button>
+      <button class="chip" onclick="setMood('sad')">Introspective / Drama</button>
+      <button class="chip" onclick="setMood('adventurous')">Adventure / Sci-Fi</button>
+      <button class="chip" onclick="setMood('scared')"> Horror / Thriller</button>
+      <button class="chip" onclick="setMood('top')"> Top Rated (8+)</button>
     </div>
 
     <div class="filters-row">
@@ -416,7 +416,7 @@
 
   <div id="factBar" class="fact-bar" style="display:none;">
     <span class="fact-text" id="factContent"></span>
-    <button class="chip" onclick="document.getElementById('factBar').style.display='none'">✕</button>
+    <button class="chip" onclick="document.getElementById('factBar').style.display='none'"></button>
   </div>
 
   <div class="grid" id="movieGrid"></div>
@@ -541,7 +541,7 @@
         card.innerHTML = `
           <div class="poster-wrap">
             <img class="poster-img" src="${m.cover}" alt="${m.nom}" onerror="this.src='Filmo.png'">
-            <span class="rating-badge">⭐ ${m.rate || 'N/A'}</span>
+            <span class="rating-badge"> ${m.rate || 'N/A'}</span>
           </div>
           <div class="card-body">
             <h3 class="movie-title">${m.nom}</h3>
@@ -560,7 +560,7 @@
     function getRandomFact() {
       if (!movies.length) return;
       const m = movies[Math.floor(Math.random() * movies.length)];
-      const fact = `🎲 Did you know? "${m.nom}" (${m.date}) was directed by ${m.director} with an IMDb rating of ${m.rate}/10!`;
+      const fact = ` Did you know? "${m.nom}" (${m.date}) was directed by ${m.director} with an IMDb rating of ${m.rate}/10!`;
       document.getElementById('factContent').textContent = fact;
       document.getElementById('factBar').style.display = 'flex';
 
@@ -585,7 +585,7 @@
 
       recognition.onstart = function() {
         btn.classList.add('listening');
-        btn.textContent = '🎙 Listening...';
+        btn.textContent = ' Listening...';
       };
 
       recognition.onresult = function(e) {
@@ -596,7 +596,7 @@
 
       recognition.onend = function() {
         btn.classList.remove('listening');
-        btn.textContent = '🎤 Speak';
+        btn.textContent = 'Voice Query';
       };
 
       recognition.start();
