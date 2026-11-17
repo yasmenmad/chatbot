@@ -1,0 +1,34 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="filmoGlow" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#8B5CF6"/>
+      <stop offset="0.5" stop-color="#EC4899"/>
+      <stop offset="1" stop-color="#06B6D4"/>
+    </linearGradient>
+    <radialGradient id="centerGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#8B5CF6" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#07090E" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Cinema Reel / Neural Aperture -->
+  <circle cx="32" cy="32" r="30" fill="url(#centerGlow)"/>
+  <circle cx="32" cy="32" r="28" stroke="url(#filmoGlow)" stroke-width="2" stroke-dasharray="6 3"/>
+
+  <!-- Inner Cinema Shutter -->
+  <circle cx="32" cy="32" r="20" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+  <circle cx="32" cy="32" r="10" fill="#0E121E" stroke="#8B5CF6" stroke-width="2"/>
+
+  <!-- Neural Transformer Nodes -->
+  <circle cx="32" cy="12" r="3" fill="#06B6D4"/>
+  <circle cx="52" cy="32" r="3" fill="#EC4899"/>
+  <circle cx="32" cy="52" r="3" fill="#8B5CF6"/>
+  <circle cx="12" cy="32" r="3" fill="#06B6D4"/>
+  <circle cx="32" cy="32" r="4" fill="#FFFFFF"/>
+
+  <!-- Connecting Synapse Lines -->
+  <line x1="32" y1="15" x2="32" y2="28" stroke="rgba(6,182,212,0.6)" stroke-width="1"/>
+  <line x1="49" y1="32" x2="36" y2="32" stroke="rgba(236,72,153,0.6)" stroke-width="1"/>
+  <line x1="32" y1="49" x2="32" y2="36" stroke="rgba(139,92,246,0.6)" stroke-width="1"/>
+  <line x1="15" y1="32" x2="28" y2="32" stroke="rgba(6,182,212,0.6)" stroke-width="1"/>
+</svg>
