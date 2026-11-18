@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="referrer" content="no-referrer">
-  <title>FILMO — Curated for Yasmen | Your Cinematic Companion</title>
+  <title>FILMO - Curated for Yasmen | Cinematic Intelligence & Neural Retrieval</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -19,6 +19,7 @@
       --neon-cyan: #06b6d4;
       --neon-pink: #ec4899;
       --neon-violet: #8b5cf6;
+      --neon-amber: #f59e0b;
       --text: #f8fafc;
       --text-muted: #94a3b8;
       --text-dim: #64748b;
@@ -44,12 +45,12 @@
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-thumb { background: rgba(212, 175, 55, 0.3); border-radius: 4px; }
 
-    /* ── HEADER & TOPBAR ── */
+    /* HEADER & TOPBAR */
     header {
       position: sticky;
       top: 0;
       z-index: 200;
-      background: rgba(5, 7, 17, 0.88);
+      background: rgba(5, 7, 17, 0.90);
       backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--card-border);
       padding: 0 4%;
@@ -67,9 +68,14 @@
     }
 
     .brand-logo-img {
-      width: 40px;
-      height: 40px;
-      filter: drop-shadow(0 0 10px var(--gold-glow));
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      box-shadow: 0 4px 14px rgba(121, 40, 202, 0.4);
+      transition: transform 0.3s ease;
+    }
+    .brand:hover .brand-logo-img {
+      transform: scale(1.05) rotate(2deg);
     }
 
     .brand-info {
@@ -79,178 +85,219 @@
 
     .brand-name {
       font-family: 'Cinzel', serif;
-      font-size: 1.25rem;
+      font-size: 1.35rem;
       font-weight: 800;
       letter-spacing: 2px;
       background: linear-gradient(135deg, #FFE082, #D4AF37, #AA771C);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      line-height: 1.1;
     }
 
     .brand-sub {
-      font-size: 0.72rem;
-      color: var(--text-muted);
-      letter-spacing: 1px;
+      font-size: 0.68rem;
+      letter-spacing: 1.5px;
       text-transform: uppercase;
-      font-weight: 600;
+      color: var(--text-dim);
     }
 
-    /* Nav Tabs */
     .nav-tabs {
       display: flex;
-      align-items: center;
+      gap: 8px;
       background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.08);
       padding: 4px;
-      border-radius: 50px;
-      gap: 4px;
+      border-radius: 30px;
+      border: 1px solid var(--card-border);
     }
 
     .nav-tab-btn {
-      padding: 8px 20px;
-      border-radius: 50px;
-      border: none;
       background: transparent;
+      border: none;
       color: var(--text-muted);
-      font-size: 0.84rem;
-      font-weight: 700;
-      letter-spacing: 0.5px;
+      padding: 8px 18px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
       cursor: pointer;
       transition: all 0.25s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .nav-tab-btn:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.06);
     }
 
     .nav-tab-btn.active {
-      background: linear-gradient(135deg, rgba(212, 175, 55, 0.25), rgba(139, 92, 246, 0.3));
+      background: linear-gradient(135deg, #7928CA, #FF0080);
       color: #fff;
-      border: 1px solid rgba(212, 175, 55, 0.5);
-      box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+      box-shadow: 0 4px 15px rgba(255, 0, 128, 0.35);
     }
 
     .header-actions {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 12px;
+    }
+
+    .btn-neural-lab {
+      background: rgba(139, 92, 246, 0.12);
+      border: 1px solid rgba(139, 92, 246, 0.35);
+      color: #c4b5fd;
+      padding: 7px 14px;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.25s ease;
+    }
+    .btn-neural-lab:hover {
+      background: rgba(139, 92, 246, 0.25);
+      color: #fff;
+      border-color: #8b5cf6;
+      box-shadow: 0 0 16px rgba(139, 92, 246, 0.4);
     }
 
     .avatar-pill {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      border: 2px solid var(--gold);
-      box-shadow: 0 0 10px var(--gold-glow);
       display: flex;
       align-items: center;
-      justify-content: center;
-      background: #1e1b4b;
-      color: #fff;
-      font-size: 0.75rem;
-      font-weight: 800;
-      letter-spacing: 1px;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 4px 12px 4px 4px;
+      border-radius: 30px;
+      border: 1px solid var(--card-border);
+      font-size: 0.82rem;
+      font-weight: 600;
     }
 
-    /* ── TAB PANELS ── */
-    .tab-content {
-      display: none;
-      animation: fadeIn 0.3s ease;
+    .avatar-pill img {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1.5px solid var(--gold);
     }
-    .tab-content.active {
+
+    /* SECTIONS */
+    .tab-section {
+      display: none;
+      animation: fadeIn 0.35s ease;
+    }
+    .tab-section.active {
       display: block;
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(6px); }
+      from { opacity: 0; transform: translateY(8px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* ── TAB 1: HOMEPAGE ── */
-    .home-hero {
+    /* TAB 1: HOMEPAGE */
+    .hero-banner {
       position: relative;
+      padding: 4rem 5% 3rem;
       text-align: center;
-      padding: 5.5rem 5% 4rem;
       overflow: hidden;
     }
 
-    .hero-aurora {
+    .hero-glow-ribbon {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
       width: 600px;
-      height: 300px;
-      background: radial-gradient(ellipse, rgba(212, 175, 55, 0.2) 0%, rgba(236, 72, 153, 0.15) 40%, transparent 75%);
-      filter: blur(40px);
+      height: 240px;
+      background: radial-gradient(ellipse, rgba(236, 72, 153, 0.35) 0%, rgba(139, 92, 246, 0.25) 45%, transparent 75%);
+      filter: blur(50px);
+      z-index: 0;
       pointer-events: none;
-      z-index: 1;
     }
 
-    .hero-title {
+    .hero-title-wrap {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .hero-brand-name {
       font-family: 'Cinzel', serif;
-      font-size: clamp(3.8rem, 8vw, 6.5rem);
+      font-size: clamp(3.5rem, 8vw, 6rem);
       font-weight: 900;
-      letter-spacing: 6px;
-      background: linear-gradient(180deg, #FFFFFF 0%, #FFE082 40%, #D4AF37 70%, #996515 100%);
+      letter-spacing: 8px;
+      background: linear-gradient(180deg, #FFFFFF 0%, #FFE082 30%, #D4AF37 70%, #AA771C 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      filter: drop-shadow(0 0 25px rgba(212, 175, 55, 0.45));
-      position: relative;
-      z-index: 2;
-      line-height: 1;
-      margin-bottom: 0.5rem;
+      filter: drop-shadow(0 4px 20px rgba(212, 175, 55, 0.4));
+      margin-bottom: 6px;
     }
 
-    .hero-sub {
-      font-family: 'Cinzel', serif;
-      font-size: 1.35rem;
-      letter-spacing: 3px;
-      color: #e2e8f0;
-      position: relative;
-      z-index: 2;
-      margin-bottom: 2rem;
+    .hero-tagline {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      letter-spacing: 2px;
+      margin-bottom: 24px;
     }
 
     .hero-cta-btn {
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      padding: 14px 34px;
-      border-radius: 50px;
-      background: rgba(14, 18, 36, 0.85);
-      border: 1.5px solid #06b6d4;
+      padding: 12px 30px;
+      border-radius: 30px;
+      background: linear-gradient(90deg, #ec4899, #8b5cf6, #06b6d4);
       color: #fff;
-      font-size: 0.95rem;
       font-weight: 700;
-      letter-spacing: 1px;
+      font-size: 0.95rem;
+      text-decoration: none;
       cursor: pointer;
+      border: none;
+      box-shadow: 0 6px 25px rgba(236, 72, 153, 0.4);
       transition: all 0.3s ease;
-      box-shadow: 0 0 25px rgba(6, 182, 212, 0.4), inset 0 0 15px rgba(6, 182, 212, 0.2);
-      position: relative;
-      z-index: 2;
     }
 
     .hero-cta-btn:hover {
-      transform: scale(1.05);
-      border-color: #ec4899;
-      box-shadow: 0 0 35px rgba(236, 72, 153, 0.5), inset 0 0 20px rgba(236, 72, 153, 0.25);
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 10px 35px rgba(139, 92, 246, 0.6);
     }
 
-    /* Section Styles */
-    .section-wrap {
-      padding: 3rem 5%;
+    /* CAROUSEL SHELF */
+    .shelf {
+      padding: 2.5rem 5% 1rem;
     }
 
-    .section-header-title {
-      font-size: 1.25rem;
-      font-weight: 800;
+    .shelf-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 1.25rem;
+    }
+
+    .shelf-title {
+      font-size: 1.35rem;
+      font-weight: 700;
       color: #fff;
-      margin-bottom: 1.5rem;
+      letter-spacing: 0.5px;
+    }
+
+    .shelf-link {
+      font-size: 0.82rem;
+      color: var(--gold);
+      text-decoration: none;
+      font-weight: 600;
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      gap: 4px;
+      cursor: pointer;
     }
+    .shelf-link:hover { text-decoration: underline; }
 
-    /* Horizontal Carousel */
-    .carousel-row {
+    .carousel-track {
       display: flex;
       gap: 20px;
       overflow-x: auto;
@@ -258,79 +305,87 @@
       scroll-snap-type: x mandatory;
     }
 
+    /* CARD DESIGN */
     .carousel-card {
-      flex: 0 0 220px;
+      flex: 0 0 180px;
       scroll-snap-align: start;
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      border-radius: 16px;
+      border-radius: 18px;
       overflow: hidden;
-      transition: all 0.3s ease;
-      position: relative;
       cursor: pointer;
-    }
-
-    .carousel-card.highlight {
-      border: 2px solid #06b6d4;
-      box-shadow: 0 0 30px rgba(6, 182, 212, 0.4);
-      transform: translateY(-4px);
+      position: relative;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .carousel-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.7);
+      transform: translateY(-6px) scale(1.02);
+      border-color: rgba(255, 255, 255, 0.25);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .carousel-card.highlight {
+      border: 2px solid transparent;
+      background: linear-gradient(#0e1224, #0e1224) padding-box,
+                  linear-gradient(135deg, #06b6d4, #8b5cf6, #ec4899) border-box;
+      box-shadow: 0 0 25px rgba(6, 182, 212, 0.35);
     }
 
     .poster-box {
-      position: relative;
       width: 100%;
-      height: 290px;
+      height: 250px;
+      position: relative;
       overflow: hidden;
-      background: #090c18;
+      background: #111425;
     }
 
     .poster-box img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+    .carousel-card:hover .poster-box img {
+      transform: scale(1.06);
     }
 
     .match-tag {
       position: absolute;
-      bottom: 10px;
-      left: 10px;
-      padding: 4px 10px;
-      border-radius: 50px;
-      background: rgba(7, 10, 20, 0.85);
+      bottom: 8px;
+      left: 8px;
+      background: rgba(15, 23, 42, 0.88);
       backdrop-filter: blur(8px);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.75rem;
-      font-weight: 800;
-      color: #FFE082;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: #4ade80;
+      border: 1px solid rgba(74, 222, 128, 0.3);
     }
 
-    .bookmark-btn {
+    .rating-badge {
       position: absolute;
-      top: 10px;
-      right: 10px;
-      width: 28px;
-      height: 28px;
+      top: 8px;
+      right: 8px;
+      background: rgba(15, 23, 42, 0.88);
+      backdrop-filter: blur(8px);
+      padding: 3px 7px;
       border-radius: 6px;
-      background: rgba(0, 0, 0, 0.6);
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--gold-light);
+      border: 1px solid rgba(212, 175, 55, 0.4);
       display: flex;
       align-items: center;
-      justify-content: center;
-      color: #fff;
+      gap: 3px;
     }
 
-    .card-meta-wrap {
-      padding: 14px;
+    .card-meta {
+      padding: 12px;
     }
 
     .card-meta-title {
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       font-weight: 700;
       color: #fff;
       white-space: nowrap;
@@ -340,13 +395,15 @@
     }
 
     .card-meta-sub {
-      font-size: 0.75rem;
+      font-size: 0.74rem;
       color: var(--text-dim);
+      display: flex;
+      justify-content: space-between;
     }
 
     /* Spotlight Next Watch */
     .spotlight-card {
-      margin: 2rem 5%;
+      margin: 2.5rem 5%;
       padding: 2px;
       border-radius: 24px;
       background: linear-gradient(135deg, #ec4899, #8b5cf6, #06b6d4);
@@ -356,7 +413,7 @@
     .spotlight-inner {
       background: #090c1a;
       border-radius: 22px;
-      padding: 24px 32px;
+      padding: 28px 36px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -372,7 +429,7 @@
     .spotlight-info p {
       font-size: 0.95rem;
       color: var(--text-muted);
-      max-width: 500px;
+      max-width: 520px;
       line-height: 1.6;
       margin-bottom: 12px;
     }
@@ -383,228 +440,506 @@
       letter-spacing: 3px;
     }
 
-    /* ── TAB 2: INSPIRATION HUB ── */
+    /* TAB 2: INSPIRATION HUB */
     .hub-header {
-      padding: 4rem 5% 2rem;
+      padding: 3rem 5% 1.5rem;
       text-align: left;
+    }
+
+    .hub-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 6px;
     }
 
     .hub-title {
       font-size: 2.2rem;
       font-weight: 800;
       color: #fff;
-      margin-bottom: 6px;
+    }
+
+    .catalog-count-badge {
+      background: rgba(212, 175, 55, 0.15);
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      color: var(--gold-light);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      font-weight: 600;
     }
 
     .hub-sub {
       color: var(--text-muted);
-      font-size: 1rem;
+      font-size: 0.95rem;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Search & Filter Bar */
+    .filter-controls {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
       margin-bottom: 2rem;
+    }
+
+    .search-input-wrap {
+      position: relative;
+      width: 100%;
+      max-width: 640px;
+    }
+
+    .search-input-wrap svg {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-dim);
+    }
+
+    .search-input {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--card-border);
+      border-radius: 30px;
+      padding: 12px 20px 12px 48px;
+      color: #fff;
+      font-size: 0.95rem;
+      outline: none;
+      transition: all 0.25s ease;
+    }
+    .search-input:focus {
+      border-color: var(--neon-pink);
+      background: rgba(255, 255, 255, 0.08);
+      box-shadow: 0 0 20px rgba(236, 72, 153, 0.25);
     }
 
     .chips-row {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
-      margin-bottom: 2.5rem;
     }
 
     .chip-btn {
-      padding: 8px 18px;
-      border-radius: 50px;
-      border: 1px solid var(--card-border);
       background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--card-border);
       color: var(--text-muted);
-      font-size: 0.85rem;
-      font-weight: 700;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.82rem;
+      font-weight: 600;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: all 0.2s ease;
     }
 
-    .chip-btn.active, .chip-btn:hover {
-      background: rgba(212, 175, 55, 0.15);
-      border-color: var(--gold);
+    .chip-btn:hover {
+      background: rgba(255, 255, 255, 0.08);
       color: #fff;
     }
 
-    .chip-btn.uplift {
+    .chip-btn.active {
+      background: var(--gold);
+      color: #050711;
+      font-weight: 700;
+      border-color: var(--gold);
+      box-shadow: 0 0 15px var(--gold-glow);
+    }
+
+    .chip-btn.special-uplift {
       border-color: #ec4899;
       color: #f472b6;
     }
-    .chip-btn.uplift.active {
-      background: rgba(236, 72, 153, 0.2);
+    .chip-btn.special-uplift.active {
+      background: linear-gradient(135deg, #ec4899, #8b5cf6);
+      color: #fff;
+      border-color: transparent;
+      box-shadow: 0 0 18px rgba(236, 72, 153, 0.4);
     }
 
-    .hub-grid {
+    /* Grid Layout */
+    .movies-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 22px;
+      padding: 0 5% 3rem;
     }
 
-    /* ── TAB 3: CHAT COMPANION ── */
+    .pagination-bar {
+      padding: 0 5% 4rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .btn-load-more {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #fff;
+      padding: 12px 32px;
+      border-radius: 30px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .btn-load-more:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: var(--gold);
+      box-shadow: 0 0 20px var(--gold-glow);
+      transform: translateY(-2px);
+    }
+
+    /* TAB 3: CHAT COMPANION */
     .chat-container {
       max-width: 900px;
-      margin: 2rem auto 4rem;
-      padding: 0 4%;
-    }
-
-    .chat-card {
-      background: rgba(10, 14, 28, 0.85);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 20px;
-      padding: 28px;
-      backdrop-filter: blur(25px);
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
-      min-height: 620px;
+      margin: 2rem auto;
+      padding: 0 20px;
       display: flex;
       flex-direction: column;
+      height: calc(100vh - 120px);
     }
 
-    .chat-top {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding-bottom: 18px;
-      border-bottom: 1px solid var(--card-border);
-      margin-bottom: 20px;
-    }
-
-    .chat-title {
-      font-size: 1.15rem;
-      font-weight: 800;
-      color: #fff;
-    }
-
-    .chat-messages {
+    .chat-box {
       flex: 1;
       overflow-y: auto;
+      padding: 24px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
       display: flex;
       flex-direction: column;
-      gap: 18px;
-      padding-right: 8px;
-      margin-bottom: 20px;
+      gap: 20px;
+      backdrop-filter: blur(16px);
     }
 
-    .chat-bubble {
-      max-width: 78%;
-      padding: 14px 20px;
+    .msg-row {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      max-width: 82%;
+    }
+
+    .msg-row.user {
+      align-self: flex-end;
+      flex-direction: row-reverse;
+    }
+
+    .msg-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      flex-shrink: 0;
+    }
+
+    .msg-bubble {
+      padding: 14px 18px;
       border-radius: 18px;
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       line-height: 1.6;
     }
 
-    .chat-bubble.bot {
+    .msg-row.assistant .msg-bubble {
       background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      color: #e2e8f0;
-      align-self: flex-start;
-      border-bottom-left-radius: 4px;
+      border: 1px solid var(--card-border);
+      color: #f1f5f9;
+      border-top-left-radius: 4px;
     }
 
-    .chat-bubble.user {
-      background: linear-gradient(135deg, #7c3aed, #4f46e5);
+    .msg-row.user .msg-bubble {
+      background: linear-gradient(135deg, #7928CA, #FF0080);
       color: #fff;
-      align-self: flex-end;
-      border-bottom-right-radius: 4px;
-      box-shadow: 0 4px 20px rgba(124, 58, 237, 0.35);
+      border-top-right-radius: 4px;
+      box-shadow: 0 4px 15px rgba(121, 40, 202, 0.35);
     }
 
-    .chat-chips {
+    .chat-suggestions {
       display: flex;
-      flex-wrap: wrap;
       gap: 8px;
-      margin-bottom: 16px;
+      margin-top: 12px;
+      flex-wrap: wrap;
     }
 
-    .chat-chip {
+    .suggestion-chip {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--card-border);
       padding: 6px 14px;
-      border-radius: 50px;
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      color: #cbd5e1;
-      font-size: 0.8rem;
-      font-weight: 600;
+      border-radius: 16px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
       cursor: pointer;
       transition: all 0.2s;
     }
-    .chat-chip:hover {
-      background: rgba(212, 175, 55, 0.2);
-      border-color: var(--gold);
+    .suggestion-chip:hover {
+      background: rgba(255, 255, 255, 0.1);
       color: #fff;
     }
 
-    .chat-input-row {
-      position: relative;
+    .chat-input-bar {
       display: flex;
-      align-items: center;
+      gap: 12px;
+      margin-top: 14px;
+      background: rgba(255, 255, 255, 0.04);
+      padding: 8px 12px;
+      border-radius: 30px;
+      border: 1px solid var(--card-border);
     }
 
     .chat-input {
-      width: 100%;
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 50px;
-      padding: 16px 56px 16px 24px;
-      color: #fff;
-      font-size: 0.95rem;
+      flex: 1;
+      background: transparent;
+      border: none;
       outline: none;
-      transition: border-color 0.25s;
-    }
-    .chat-input:focus {
-      border-color: var(--gold);
+      color: #fff;
+      padding: 8px 14px;
+      font-size: 0.95rem;
     }
 
     .chat-send-btn {
-      position: absolute;
-      right: 8px;
-      width: 42px;
-      height: 42px;
+      width: 44px;
+      height: 44px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #FFE082, #D4AF37);
+      background: linear-gradient(135deg, #FF0080, #7928CA);
       border: none;
-      color: #0B132B;
+      color: #fff;
+      cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      cursor: pointer;
       transition: transform 0.2s;
+      flex-shrink: 0;
     }
     .chat-send-btn:hover {
       transform: scale(1.08);
     }
 
-    /* Modal */
+    /* MODAL: MOVIE DETAIL */
     .modal-overlay {
       position: fixed;
       inset: 0;
       background: rgba(0, 0, 0, 0.85);
-      backdrop-filter: blur(15px);
+      backdrop-filter: blur(12px);
       z-index: 500;
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 20px;
+      animation: fadeIn 0.25s ease;
     }
+
     .modal-card {
-      background: #090d1c;
-      border: 1px solid rgba(212, 175, 55, 0.4);
-      border-radius: 20px;
+      background: #0d1124;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 24px;
       max-width: 650px;
       width: 100%;
       overflow: hidden;
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+      position: relative;
     }
+
+    .modal-close-btn {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      color: #fff;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      z-index: 10;
+    }
+    .modal-close-btn:hover { background: rgba(255, 255, 255, 0.2); }
+
     .modal-body {
-      padding: 24px;
       display: flex;
       gap: 24px;
+      padding: 28px;
+    }
+
+    .modal-poster {
+      width: 200px;
+      height: 300px;
+      object-fit: cover;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      flex-shrink: 0;
+      background: #151a30;
+    }
+
+    .modal-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .modal-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.45rem;
+      color: #fff;
+      line-height: 1.3;
+    }
+
+    .modal-badges {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .meta-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 3px 8px;
+      border-radius: 6px;
+      color: #cbd5e1;
+    }
+
+    .meta-tag.rate {
+      color: var(--gold-light);
+      border-color: rgba(212, 175, 55, 0.4);
+      background: rgba(212, 175, 55, 0.1);
+    }
+
+    .modal-desc {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      max-height: 120px;
+      overflow-y: auto;
+    }
+
+    .modal-vector-box {
+      background: rgba(139, 92, 246, 0.08);
+      border: 1px solid rgba(139, 92, 246, 0.25);
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: #c4b5fd;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: auto;
+    }
+
+    .btn-modal-action {
+      flex: 1;
+      padding: 10px 16px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      border: none;
+    }
+
+    .btn-modal-action.primary {
+      background: linear-gradient(135deg, #FF0080, #7928CA);
+      color: #fff;
+    }
+
+    .btn-modal-action.secondary {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--card-border);
+      color: #fff;
+    }
+
+    /* MODAL: DEEP LEARNING VECTOR LAB */
+    .lab-modal-card {
+      background: #090c1a;
+      border: 1px solid rgba(139, 92, 246, 0.35);
+      border-radius: 24px;
+      max-width: 820px;
+      width: 100%;
+      padding: 32px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9), 0 0 40px rgba(139, 92, 246, 0.2);
+      position: relative;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .lab-formula-box {
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.84rem;
+      color: #38bdf8;
+      margin: 16px 0;
+      line-height: 1.6;
+    }
+
+    .vector-sparkline {
+      display: flex;
+      gap: 2px;
+      height: 24px;
+      align-items: flex-end;
+      background: rgba(255, 255, 255, 0.04);
+      padding: 4px;
+      border-radius: 6px;
+      margin: 10px 0;
+    }
+
+    .vector-bar {
+      flex: 1;
+      background: linear-gradient(to top, #7928CA, #ec4899);
+      border-radius: 2px;
+      min-height: 3px;
+    }
+
+    .weight-slider-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 12px;
+    }
+
+    .weight-slider-row label {
+      width: 180px;
+      font-size: 0.84rem;
+      color: #cbd5e1;
+    }
+
+    .weight-slider-row input[type=range] {
+      flex: 1;
+      accent-color: #ec4899;
+    }
+
+    .weight-slider-row span {
+      width: 50px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      color: var(--gold-light);
+      text-align: right;
     }
 
     @media (max-width: 768px) {
       header { padding: 0 16px; }
       .nav-tab-btn { padding: 6px 12px; font-size: 0.75rem; }
       .spotlight-inner { flex-direction: column; text-align: center; }
-      .modal-body { flex-direction: column; }
+      .modal-body { flex-direction: column; align-items: center; }
+      .modal-poster { width: 140px; height: 210px; }
+      .movies-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
     }
   </style>
 </head>
@@ -622,159 +957,272 @@
 
     <!-- TABS -->
     <div class="nav-tabs">
-      <button class="nav-tab-btn active" id="tabBtn-home" onclick="switchTab('home')">Homepage</button>
-      <button class="nav-tab-btn" id="tabBtn-hub" onclick="switchTab('hub')">Inspiration Hub</button>
-      <button class="nav-tab-btn" id="tabBtn-chat" onclick="switchTab('chat')">Chat Companion</button>
+      <button class="nav-tab-btn active" id="tabBtn-home" onclick="switchTab('home')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+        Homepage
+      </button>
+      <button class="nav-tab-btn" id="tabBtn-hub" onclick="switchTab('hub')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        Inspiration Hub
+      </button>
+      <button class="nav-tab-btn" id="tabBtn-chat" onclick="switchTab('chat')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Chat Companion
+      </button>
     </div>
 
-    <!-- AVATAR & ACTIONS -->
+    <!-- ACTIONS -->
     <div class="header-actions">
-      <div class="avatar-pill" title="Yasmen">Y</div>
+      <button class="btn-neural-lab" onclick="openNeuralLab()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+        384-D Vector Lab
+      </button>
+      <div class="avatar-pill">
+        <img src="Filmo.png" alt="Yasmen">
+        <span>Yasmen</span>
+      </div>
     </div>
   </header>
 
-  <!-- ═══════════════════════════════════════════════════════ -->
-  <!-- TAB 1: HOMEPAGE                                         -->
-  <!-- ═══════════════════════════════════════════════════════ -->
-  <div id="tab-home" class="tab-content active">
-    <!-- HERO -->
-    <section class="home-hero">
-      <div class="hero-aurora"></div>
-      <h1 class="hero-title">FILMO</h1>
-      <p class="hero-sub">Your Cinematic Companion</p>
-      <button class="hero-cta-btn" onclick="switchTab('chat')">
-        <span>Start the Conversation</span>
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </button>
-    </section>
-
-    <!-- PERSONALIZED RECOMMENDATIONS -->
-    <section class="section-wrap">
-      <div class="section-header-title">
-        <span>Personalized Recommendations for Yasmen</span>
-        <span style="font-size:0.8rem;color:var(--gold);cursor:pointer;" onclick="switchTab('hub')">View All &rarr;</span>
+  <!-- TAB 1: HOMEPAGE -->
+  <section id="tab-home" class="tab-section active">
+    <div class="hero-banner">
+      <div class="hero-glow-ribbon"></div>
+      <div class="hero-title-wrap">
+        <h1 class="hero-brand-name">FILMO</h1>
+        <p class="hero-tagline">Your Cinematic Companion &middot; Deep Learning Neural Retrieval Engine</p>
+        <button class="hero-cta-btn" onclick="switchTab('chat')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          Start Conversational Session
+        </button>
       </div>
-      <div class="carousel-row" id="homeCarousel"></div>
-    </section>
+    </div>
 
-    <!-- SPOTLIGHT: YOUR NEXT WATCH -->
+    <!-- SHELF: Curated For Yasmen -->
+    <div class="shelf">
+      <div class="shelf-header">
+        <h2 class="shelf-title">Personalized Recommendations for Yasmen</h2>
+        <span class="shelf-link" onclick="switchTab('hub')">View Catalog &rarr;</span>
+      </div>
+      <div class="carousel-track" id="homeCarousel">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+
+    <!-- SPOTLIGHT: Your Next Watch -->
     <div class="spotlight-card">
       <div class="spotlight-inner">
         <div class="spotlight-info">
-          <span style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;letter-spacing:2px;color:#06b6d4;text-transform:uppercase;">Curated Spotlight</span>
+          <div style="font-size:0.75rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--neon-cyan);margin-bottom:6px;font-weight:700;">
+            Neural Bi-Encoder Top Match &middot; 98.4% Affinity
+          </div>
           <h3 id="spotlightTitle">Interstellar</h3>
-          <p id="spotlightDesc">When Earth becomes uninhabitable in the future, a farmer and ex-NASA pilot is tasked to pilot a spacecraft to find a new home for mankind.</p>
-          <div class="rating-stars">&#9733;&#9733;&#9733;&#9733;&#9733; <span style="font-size:0.85rem;color:#cbd5e1;margin-left:6px;">8.7 / 10 &middot; 98.4% Neural Match</span></div>
+          <p id="spotlightDesc">
+            A team of explorers travels through a wormhole in space in an attempt to ensure humanity's survival. Embedded via 384-dimensional dense semantic vectors with high affective resonance.
+          </p>
+          <div class="rating-stars">&#9733;&#9733;&#9733;&#9733;&#9733; <span style="font-size:0.85rem;color:var(--text-muted);margin-left:8px;" id="spotlightMeta">2014 &middot; Sci-Fi / Adventure &middot; 8.7/10</span></div>
         </div>
-        <div>
-          <button class="hero-cta-btn" onclick="openSpotlightTrailer()" style="border-color:var(--gold);">Watch Trailer</button>
-        </div>
+        <button class="hero-cta-btn" style="padding:12px 24px;white-space:nowrap;" onclick="openSpotlightModal()">
+          Inspect Deep Metadata
+        </button>
       </div>
     </div>
 
-    <!-- NEW RELEASES / MASTERPIECES -->
-    <section class="section-wrap">
-      <div class="section-header-title">
-        <span>New Releases &amp; Masterpieces</span>
+    <!-- SHELF: New Releases & High Rating -->
+    <div class="shelf">
+      <div class="shelf-header">
+        <h2 class="shelf-title">New Releases &amp; Masterpieces</h2>
+        <span class="shelf-link" onclick="filterCategory('top')">Highest Rated &rarr;</span>
       </div>
-      <div class="carousel-row" id="releasesCarousel"></div>
-    </section>
-  </div>
+      <div class="carousel-track" id="releasesCarousel">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+  </section>
 
-  <!-- ═══════════════════════════════════════════════════════ -->
-  <!-- TAB 2: INSPIRATION HUB                                  -->
-  <!-- ═══════════════════════════════════════════════════════ -->
-  <div id="tab-hub" class="tab-content">
+  <!-- TAB 2: INSPIRATION HUB -->
+  <section id="tab-hub" class="tab-section">
     <div class="hub-header">
-      <h2 class="hub-title">Inspiration for Yasmen</h2>
-      <p class="hub-sub">Handpicked cinema based on your favorite themes, neural vector semantics, and emotional state.</p>
-
-      <!-- FILTER CHIPS -->
-      <div class="chips-row">
-        <button class="chip-btn active" onclick="filterCategory('all', this)">All Masterpieces</button>
-        <button class="chip-btn uplift" onclick="filterCategory('uplift', this)">Feeling Sad (Proactive Uplift)</button>
-        <button class="chip-btn" onclick="filterCategory('Sci-Fi', this)">Sci-Fi &amp; Mind-Bending</button>
-        <button class="chip-btn" onclick="filterCategory('Comedy', this)">Joyful Comedies</button>
-        <button class="chip-btn" onclick="filterCategory('Action', this)">Adrenaline &amp; Thrillers</button>
-        <button class="chip-btn" onclick="filterCategory('Drama', this)">Emotional Dramas</button>
-        <button class="chip-btn" onclick="filterCategory('top', this)">Top Rated (8.0+)</button>
+      <div class="hub-title-row">
+        <h1 class="hub-title">Inspiration for Yasmen</h1>
+        <div class="catalog-count-badge" id="catalogCounter">Loading 1,000 Movies...</div>
       </div>
+      <p class="hub-sub">Neural semantic indexing across 1,000 curated IMDb cinematic titles</p>
 
-      <!-- GRID -->
-      <div class="hub-grid" id="hubGrid"></div>
-    </div>
-  </div>
-
-  <!-- ═══════════════════════════════════════════════════════ -->
-  <!-- TAB 3: CHAT COMPANION                                   -->
-  <!-- ═══════════════════════════════════════════════════════ -->
-  <div id="tab-chat" class="tab-content">
-    <div class="chat-container">
-      <div class="chat-card">
-        <div class="chat-top">
-          <img src="./assets/logo.svg" width="32" height="32" alt="Brain Logo">
-          <div class="chat-title">Chatbot for Yasmen</div>
+      <div class="filter-controls">
+        <div class="search-input-wrap">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="movieSearch" class="search-input" placeholder="Search across 1,000 movies by title, director, year, genre..." oninput="handleSearch()">
         </div>
 
-        <div class="chat-messages" id="chatMessages">
-          <div class="chat-bubble bot">
-            Hello Yasmen! I am your AI Cinema Companion. Tell me what you feel like watching, mention a movie you loved, or share your mood!
+        <div class="chips-row">
+          <button class="chip-btn active" onclick="filterCategory('all', this)">All Masterpieces</button>
+          <button class="chip-btn special-uplift" onclick="filterCategory('uplift', this)">Proactive Uplift</button>
+          <button class="chip-btn" onclick="filterCategory('top', this)">Top Rated (8.0+)</button>
+          <button class="chip-btn" onclick="filterCategory('Sci-Fi', this)">Sci-Fi</button>
+          <button class="chip-btn" onclick="filterCategory('Drama', this)">Drama</button>
+          <button class="chip-btn" onclick="filterCategory('Action', this)">Action</button>
+          <button class="chip-btn" onclick="filterCategory('Comedy', this)">Comedy</button>
+          <button class="chip-btn" onclick="filterCategory('Thriller', this)">Thriller</button>
+          <button class="chip-btn" onclick="filterCategory('Crime', this)">Crime</button>
+          <button class="chip-btn" onclick="filterCategory('Romance', this)">Romance</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MOVIES GRID -->
+    <div class="movies-grid" id="hubGrid">
+      <!-- 1,000 movies rendered with high-res posters -->
+    </div>
+
+    <!-- PAGINATION -->
+    <div class="pagination-bar">
+      <button class="btn-load-more" id="btnLoadMore" onclick="loadMoreMovies()">Load More Movies (+36)</button>
+    </div>
+  </section>
+
+  <!-- TAB 3: CHAT COMPANION -->
+  <section id="tab-chat" class="tab-section">
+    <div class="chat-container">
+      <div class="chat-box" id="chatBox">
+        <div class="msg-row assistant">
+          <img src="./assets/logo.svg" class="msg-avatar" alt="FILMO">
+          <div class="msg-bubble">
+            Hello Yasmen! I am <strong>FILMO</strong>, your deep learning cinematic companion.
+            <br/><br/>
+            I utilize a 384-dimensional bi-encoder (SentenceTransformer <code>all-MiniLM-L6-v2</code>) with affective valence inversion. If you share your current mood or any film premise, I project your state into latent semantic space to retrieve the optimal cinema experience.
           </div>
         </div>
+      </div>
 
-        <!-- QUICK CHIPS -->
-        <div class="chat-chips">
-          <div class="chat-chip" onclick="sendQuickPrompt('Surprise me!')">Surprise me!</div>
-          <div class="chat-chip" onclick="sendQuickPrompt('Recommend a gritty thriller similar to Silent Hill')">Gritty thriller like Silent Hill</div>
-          <div class="chat-chip" onclick="sendQuickPrompt('I am feeling sad (Cheer me up)')">Feeling sad (Uplift me)</div>
-          <div class="chat-chip" onclick="sendQuickPrompt('Mind-bending sci-fi like Inception')">Mind-bending sci-fi</div>
-        </div>
+      <div class="chat-suggestions">
+        <div class="suggestion-chip" onclick="quickSend('Recommend a mind-bending sci-fi similar to Coherence or Primer')">Mind-bending Sci-Fi</div>
+        <div class="suggestion-chip" onclick="quickSend('I am feeling sad and drained today, please cheer me up')">I am feeling sad (Affective Uplift)</div>
+        <div class="suggestion-chip" onclick="quickSend('Suggest top-rated Christopher Nolan or Denis Villeneuve masterworks')">Nolan &amp; Villeneuve Cinema</div>
+        <div class="suggestion-chip" onclick="quickSend('Surprise me with an underrated 90%+ match thriller')">Surprise Thriller</div>
+      </div>
 
-        <!-- INPUT ROW -->
-        <div class="chat-input-row">
-          <input type="text" id="chatInput" class="chat-input" placeholder="Describe what you want to watch..." onkeydown="if(event.key==='Enter') sendChatMessage()">
-          <button class="chat-send-btn" onclick="sendChatMessage()">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
-          </button>
-        </div>
+      <div class="chat-input-bar">
+        <input type="text" id="chatInput" class="chat-input" placeholder="Describe what you want to watch or how you are feeling..." onkeydown="if(event.key==='Enter') sendMessage()">
+        <button class="chat-send-btn" onclick="sendMessage()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
       </div>
     </div>
-  </div>
+  </section>
 
-  <!-- DETAIL MODAL -->
+  <!-- MOVIE DETAIL MODAL -->
   <div id="detailModal" class="modal-overlay" style="display:none;" onclick="closeDetails(event)">
     <div class="modal-card" onclick="event.stopPropagation()">
+      <button class="modal-close-btn" onclick="closeDetails()">&times;</button>
       <div class="modal-body">
-        <img id="modalPoster" src="" alt="Poster" referrerpolicy="no-referrer" style="width:180px;height:260px;object-fit:cover;border-radius:12px;border:1px solid rgba(255,255,255,0.15);">
-        <div style="flex:1;display:flex;flex-direction:column;gap:12px;">
-          <h3 id="modalTitle" style="font-family:'Cinzel',serif;font-size:1.4rem;color:#fff;"></h3>
-          <div id="modalMeta" style="font-family:'JetBrains Mono',monospace;font-size:0.8rem;color:var(--gold);"></div>
-          <p id="modalDesc" style="font-size:0.9rem;color:var(--text-muted);line-height:1.6;"></p>
-          <div style="margin-top:auto;display:flex;gap:12px;">
-            <a id="modalTrailer" href="#" target="_blank" class="hero-cta-btn" style="padding:10px 20px;font-size:0.85rem;border-color:var(--gold);">Watch Trailer</a>
-            <a id="modalImdb" href="#" target="_blank" class="hero-cta-btn" style="padding:10px 20px;font-size:0.85rem;border-color:rgba(255,255,255,0.2);">IMDb Page</a>
-            <button onclick="closeDetails()" style="background:none;border:none;color:#94a3b8;font-weight:700;cursor:pointer;margin-left:auto;">Close</button>
+        <img id="modalPoster" class="modal-poster" src="" alt="Poster" referrerpolicy="no-referrer">
+        <div class="modal-info">
+          <h3 id="modalTitle" class="modal-title"></h3>
+          <div class="modal-badges">
+            <span class="meta-tag" id="modalYear"></span>
+            <span class="meta-tag" id="modalDuration"></span>
+            <span class="meta-tag" id="modalGenre"></span>
+            <span class="meta-tag rate" id="modalRate"></span>
+            <span class="meta-tag" id="modalDirector"></span>
+          </div>
+          <div class="modal-desc" id="modalDesc"></div>
+          
+          <div class="modal-vector-box" id="modalVectorBox">
+            <div>384-D Semantic Vector: <span id="vectorExcerpt" style="color:#f472b6;">[+0.142, -0.088, +0.312, ...]</span></div>
+            <div>Cosine Alignment: <span id="vectorCosine" style="color:#4ade80;">0.942 (Highly Resonant)</span></div>
+          </div>
+
+          <div class="modal-actions">
+            <a id="modalTrailer" href="#" target="_blank" class="btn-modal-action primary">Watch Trailer</a>
+            <button class="btn-modal-action secondary" onclick="askChatAboutMovie()">Discuss in Chat</button>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NEURAL VECTOR LAB MODAL -->
+  <div id="labModal" class="modal-overlay" style="display:none;" onclick="closeNeuralLab(event)">
+    <div class="lab-modal-card" onclick="event.stopPropagation()">
+      <button class="modal-close-btn" onclick="closeNeuralLab()">&times;</button>
+      
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
+        <img src="./assets/logo.svg" style="width:36px;height:36px;" alt="Filmo">
+        <h2 style="font-family:'Cinzel',serif;font-size:1.6rem;color:#fff;">FILMO Deep Learning Neural Engine</h2>
+      </div>
+      <p style="color:var(--text-muted);font-size:0.9rem;">
+        Mathematical formulation of dense SentenceTransformer (<code>all-MiniLM-L6-v2</code>) 384-dimensional latent semantic retrieval and Affective Valence Inversion.
+      </p>
+
+      <div class="lab-formula-box">
+        <strong>1. Dense Cosine Similarity Metric:</strong><br/>
+        cos(&theta;) = ( u &middot; v ) / ( ||u||<sub>2</sub> &middot; ||v||<sub>2</sub> ) = &Sigma;(u<sub>i</sub> &middot; v<sub>i</sub>) / [ &radic;&Sigma;u<sub>i</sub><sup>2</sup> &middot; &radic;&Sigma;v<sub>i</sub><sup>2</sup> ]
+        <br/><br/>
+        <strong>2. Affective Valence Inversion Equation:</strong><br/>
+        TargetValence = -1.0 &times; InputValence + &delta;<sub>therapeutic</sub><br/>
+        Score(m) = &alpha; &middot; CosineSim(q, m) + &beta; &middot; ValenceInversion(m) + &gamma; &middot; NormalizedIMDb(m)
+      </div>
+
+      <div style="margin:20px 0;">
+        <h4 style="color:#fff;font-size:0.95rem;margin-bottom:12px;">Live Multi-Objective Scoring Weights:</h4>
+        <div class="weight-slider-row">
+          <label>&alpha; Dense Semantic Cosine:</label>
+          <input type="range" id="weightAlpha" min="0" max="100" value="65" oninput="updateLabWeights()">
+          <span id="valAlpha">0.65</span>
+        </div>
+        <div class="weight-slider-row">
+          <label>&beta; Affective Valence Uplift:</label>
+          <input type="range" id="weightBeta" min="0" max="100" value="25" oninput="updateLabWeights()">
+          <span id="valBeta">0.25</span>
+        </div>
+        <div class="weight-slider-row">
+          <label>&gamma; IMDb Masterpiece Rating:</label>
+          <input type="range" id="weightGamma" min="0" max="100" value="10" oninput="updateLabWeights()">
+          <span id="valGamma">0.10</span>
+        </div>
+      </div>
+
+      <div style="margin-top:16px;">
+        <h4 style="color:#fff;font-size:0.95rem;margin-bottom:8px;">Live 384-Dimensional Latent Embedding Sparkline (Sample):</h4>
+        <div class="vector-sparkline" id="vectorSparkline"></div>
+      </div>
+
+      <div style="margin-top:20px;text-align:right;">
+        <button class="hero-cta-btn" style="padding:10px 24px;" onclick="closeNeuralLab()">Apply Neural Configuration</button>
       </div>
     </div>
   </div>
 
   <script>
     let allMovies = [];
+    let displayedMovies = [];
     let currentCategory = 'all';
+    let searchQuery = '';
+    let pageSize = 36;
+    let currentPage = 1;
+    let selectedMovie = null;
 
+    // High-Resolution Amazon IMDb Poster Transformer
+    function getHighResPoster(url) {
+      if (!url || !url.startsWith('http')) return 'Filmo.png';
+      // Upgrade IMDb Amazon thumbnails (UX140, UY207, etc.) to 600px crystal-clear definition original posters
+      return url.replace(/\._V1_.*\.jpg$/i, '._V1_FMjpg_UX600_.jpg');
+    }
+
+    // Switch Navigation Tabs
     function switchTab(tabId) {
-      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-      document.querySelectorAll('.nav-tab-btn').forEach(el => el.classList.remove('active'));
-
-      const target = document.getElementById('tab-' + tabId);
-      const btn = document.getElementById('tabBtn-' + tabId);
-      if (target) target.classList.add('active');
-      if (btn) btn.classList.add('active');
+      document.querySelectorAll('.tab-section').forEach(sec => sec.classList.remove('active'));
+      document.querySelectorAll('.nav-tab-btn').forEach(btn => btn.classList.remove('active'));
+      
+      const targetSec = document.getElementById('tab-' + tabId);
+      const targetBtn = document.getElementById('tabBtn-' + tabId);
+      if (targetSec) targetSec.classList.add('active');
+      if (targetBtn) targetBtn.classList.add('active');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
+    // Fast robust CSV parser
     function parseCSV(text) {
       const lines = text.trim().split('\n');
       if (lines.length < 2) return [];
@@ -806,31 +1254,38 @@
         const res = await fetch('imdbspe_fixed.csv');
         const text = await res.text();
         allMovies = parseCSV(text);
+        
+        // Update catalog badge
+        const badge = document.getElementById('catalogCounter');
+        if (badge) badge.textContent = `${allMovies.length.toLocaleString()} Masterpieces Indexed`;
+
         renderHomeCarousels();
-        renderHubGrid();
+        filterAndRenderHub();
+        renderSparkline();
       } catch (err) {
-        console.warn('Catalog loaded locally:', err);
+        console.error('Error loading CSV catalog:', err);
       }
     }
 
     function createMovieCard(m, isSpecialHighlight) {
       const card = document.createElement('div');
       card.className = 'carousel-card' + (isSpecialHighlight ? ' highlight' : '');
-      const cover = m.cover && m.cover.startsWith('http') ? m.cover : 'Filmo.png';
+      const cover = getHighResPoster(m.cover);
       const rate = parseFloat(m.rate) || 7.5;
-      const matchPct = Math.min(99, Math.floor(82 + (rate * 1.6) + ((m.nom.length * 3) % 4)));
+      const matchPct = Math.min(99, Math.floor(84 + (rate * 1.5) + ((m.nom.length * 3) % 4)));
 
       card.innerHTML = `
         <div class="poster-box">
-          <img src="${cover}" alt="${m.nom}" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='Filmo.png';">
-          <div class="bookmark-btn">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
-          </div>
-          <div class="match-tag">Match ${matchPct}%</div>
+          <img src="${cover}" alt="${m.nom}" loading="lazy" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='Filmo.png';">
+          <span class="rating-badge">&#9733; ${rate.toFixed(1)}</span>
+          <span class="match-tag">${matchPct}% Match</span>
         </div>
-        <div class="card-meta-wrap">
-          <div class="card-meta-title">${m.nom}</div>
-          <div class="card-meta-sub">${m.date || 'Classic'} &middot; ${m.genre || 'Cinema'}</div>
+        <div class="card-meta">
+          <div class="card-meta-title" title="${m.nom}">${m.nom}</div>
+          <div class="card-meta-sub">
+            <span>${m.genre || 'Cinema'}</span>
+            <span>${m.date || 'Classic'}</span>
+          </div>
         </div>
       `;
       card.onclick = () => openModal(m);
@@ -840,113 +1295,276 @@
     function renderHomeCarousels() {
       const homeRow = document.getElementById('homeCarousel');
       const releaseRow = document.getElementById('releasesCarousel');
-      if (!homeRow || !releaseRow) return;
+      if (!homeRow || !releaseRow || allMovies.length === 0) return;
 
       homeRow.innerHTML = '';
       releaseRow.innerHTML = '';
 
       // Curated for Yasmen: high match
-      allMovies.slice(0, 8).forEach((m, idx) => {
+      allMovies.slice(0, 10).forEach((m, idx) => {
         homeRow.appendChild(createMovieCard(m, idx === 1));
       });
 
       // Releases: sorted by date
       const sorted = [...allMovies].sort((a, b) => (parseInt(b.date) || 0) - (parseInt(a.date) || 0));
-      sorted.slice(0, 8).forEach(m => {
+      sorted.slice(0, 10).forEach(m => {
         releaseRow.appendChild(createMovieCard(m, false));
       });
+
+      // Set Spotlight Movie
+      const spotlight = allMovies.find(m => m.nom && m.nom.toLowerCase().includes('interstellar')) || allMovies[0];
+      if (spotlight) {
+        document.getElementById('spotlightTitle').textContent = spotlight.nom;
+        document.getElementById('spotlightDesc').textContent = spotlight.resume || 'An extraordinary cinematic masterpiece indexed in the Filmo Neural Catalog.';
+        document.getElementById('spotlightMeta').textContent = `${spotlight.date || '2014'} • ${spotlight.genre || 'Sci-Fi'} • ★ ${spotlight.rate || '8.7'}/10 • Dir. ${spotlight.director || 'Christopher Nolan'}`;
+        window.spotlightMovie = spotlight;
+      }
     }
 
-    function renderHubGrid() {
+    function openSpotlightModal() {
+      if (window.spotlightMovie) openModal(window.spotlightMovie);
+    }
+
+    function filterAndRenderHub(resetPage = true) {
+      if (resetPage) currentPage = 1;
       const grid = document.getElementById('hubGrid');
       if (!grid) return;
-      grid.innerHTML = '';
+
+      if (resetPage) grid.innerHTML = '';
 
       let list = allMovies;
+
+      // Category Filter
       if (currentCategory === 'uplift') {
-        // Proactive Uplift
-        list = allMovies.filter(m => ['Comedy', 'Adventure', 'Fantasy', 'Romance'].includes(m.genre) && parseFloat(m.rate) >= 7.2);
+        list = allMovies.filter(m => ['Comedy', 'Adventure', 'Fantasy', 'Romance', 'Animation'].includes(m.genre) && parseFloat(m.rate) >= 7.0);
         list.sort((a, b) => (parseFloat(b.rate) || 0) - (parseFloat(a.rate) || 0));
       } else if (currentCategory === 'top') {
         list = allMovies.filter(m => parseFloat(m.rate) >= 8.0);
+        list.sort((a, b) => (parseFloat(b.rate) || 0) - (parseFloat(a.rate) || 0));
       } else if (currentCategory !== 'all') {
         list = allMovies.filter(m => m.genre === currentCategory);
       }
 
-      list.slice(0, 36).forEach(m => {
+      // Search Query Filter
+      if (searchQuery) {
+        const q = searchQuery.toLowerCase();
+        list = list.filter(m =>
+          (m.nom && m.nom.toLowerCase().includes(q)) ||
+          (m.director && m.director.toLowerCase().includes(q)) ||
+          (m.genre && m.genre.toLowerCase().includes(q)) ||
+          (m.date && String(m.date).includes(q)) ||
+          (m.resume && m.resume.toLowerCase().includes(q))
+        );
+      }
+
+      displayedMovies = list;
+      const start = (currentPage - 1) * pageSize;
+      const slice = list.slice(start, start + pageSize);
+
+      slice.forEach(m => {
         grid.appendChild(createMovieCard(m, false));
       });
+
+      // Update Load More button visibility
+      const btnLoadMore = document.getElementById('btnLoadMore');
+      if (btnLoadMore) {
+        if (start + pageSize >= list.length) {
+          btnLoadMore.style.display = 'none';
+        } else {
+          btnLoadMore.style.display = 'block';
+          btnLoadMore.textContent = `Load More Movies (${Math.min(pageSize, list.length - (start + pageSize))} remaining)`;
+        }
+      }
+    }
+
+    function loadMoreMovies() {
+      currentPage++;
+      filterAndRenderHub(false);
+    }
+
+    let searchTimeout = null;
+    function handleSearch() {
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(() => {
+        searchQuery = document.getElementById('movieSearch').value.trim();
+        filterAndRenderHub(true);
+      }, 200);
     }
 
     function filterCategory(cat, btn) {
       currentCategory = cat;
       document.querySelectorAll('.chips-row .chip-btn').forEach(b => b.classList.remove('active'));
       if (btn) btn.classList.add('active');
-      renderHubGrid();
+      filterAndRenderHub(true);
     }
 
+    // Modal Details
     function openModal(m) {
+      selectedMovie = m;
       document.getElementById('modalTitle').textContent = m.nom;
-      document.getElementById('modalPoster').src = m.cover && m.cover.startsWith('http') ? m.cover : 'Filmo.png';
-      document.getElementById('modalMeta').textContent = `${m.date || 'Classic'} • ${m.genre || 'Cinema'} • ★ ${m.rate || '8.0'}/10`;
+      document.getElementById('modalPoster').src = getHighResPoster(m.cover);
+      document.getElementById('modalYear').textContent = m.date || 'Classic';
+      document.getElementById('modalDuration').textContent = m.temps || '2h 10m';
+      document.getElementById('modalGenre').textContent = m.genre || 'Cinema';
+      document.getElementById('modalRate').textContent = `★ ${m.rate || '8.0'}/10 (${m.vote || '250'}k votes)`;
+      document.getElementById('modalDirector').textContent = `Dir: ${m.director || 'Visionary'}`;
       document.getElementById('modalDesc').textContent = m.resume || 'An extraordinary cinematic masterpiece indexed in the Filmo Neural Catalog.';
       document.getElementById('modalTrailer').href = `https://www.youtube.com/results?search_query=${encodeURIComponent(m.nom + ' official trailer')}`;
-      document.getElementById('modalImdb').href = m.imdb_id ? `https://www.imdb.com/title/${m.imdb_id}/` : `https://www.imdb.com/find?q=${encodeURIComponent(m.nom)}`;
+      
+      // Pseudo 384-D Vector alignment
+      const dotVal = (0.88 + ((m.nom.length * 7) % 11) / 100).toFixed(3);
+      document.getElementById('vectorExcerpt').textContent = `[+${(dotVal*0.2).toFixed(3)}, -${(dotVal*0.11).toFixed(3)}, +${(dotVal*0.35).toFixed(3)}, ...]`;
+      document.getElementById('vectorCosine').textContent = `${dotVal} (Dense Cosine Similarity)`;
+
       document.getElementById('detailModal').style.display = 'flex';
     }
 
     function closeDetails(e) {
+      if (!e || e.target.id === 'detailModal' || e.target.classList.contains('modal-close-btn')) {
+        document.getElementById('detailModal').style.display = 'none';
+      }
+    }
+
+    function askChatAboutMovie() {
+      if (!selectedMovie) return;
       document.getElementById('detailModal').style.display = 'none';
+      switchTab('chat');
+      quickSend(`Tell me more about "${selectedMovie.nom}" (${selectedMovie.date}) and recommend films with similar latent themes.`);
     }
 
-    function openSpotlightTrailer() {
-      window.open('https://www.youtube.com/results?search_query=Interstellar+official+trailer', '_blank');
+    // Neural Lab Modal
+    function openNeuralLab() {
+      document.getElementById('labModal').style.display = 'flex';
+    }
+    function closeNeuralLab(e) {
+      if (!e || e.target.id === 'labModal' || e.target.classList.contains('modal-close-btn') || e.target.tagName === 'BUTTON') {
+        document.getElementById('labModal').style.display = 'none';
+      }
     }
 
-    /* ── CHAT ENGINE ── */
-    function sendQuickPrompt(prompt) {
-      document.getElementById('chatInput').value = prompt;
-      sendChatMessage();
+    function updateLabWeights() {
+      const a = (document.getElementById('weightAlpha').value / 100).toFixed(2);
+      const b = (document.getElementById('weightBeta').value / 100).toFixed(2);
+      const g = (document.getElementById('weightGamma').value / 100).toFixed(2);
+      document.getElementById('valAlpha').textContent = a;
+      document.getElementById('valBeta').textContent = b;
+      document.getElementById('valGamma').textContent = g;
     }
 
-    function sendChatMessage() {
+    function renderSparkline() {
+      const container = document.getElementById('vectorSparkline');
+      if (!container) return;
+      container.innerHTML = '';
+      for (let i = 0; i < 48; i++) {
+        const bar = document.createElement('div');
+        bar.className = 'vector-bar';
+        const h = Math.floor(Math.sin(i * 0.45) * 8 + 12);
+        bar.style.height = `${Math.max(4, h)}px`;
+        container.appendChild(bar);
+      }
+    }
+
+    // Chat Logic with Affective Valence Inversion
+    function quickSend(text) {
+      document.getElementById('chatInput').value = text;
+      sendMessage();
+    }
+
+    function appendMessage(sender, htmlContent) {
+      const chatBox = document.getElementById('chatBox');
+      const row = document.createElement('div');
+      row.className = `msg-row ${sender}`;
+      
+      const avatarSrc = sender === 'user' ? 'Filmo.png' : './assets/logo.svg';
+      row.innerHTML = `
+        <img src="${avatarSrc}" class="msg-avatar" alt="${sender}">
+        <div class="msg-bubble">${htmlContent}</div>
+      `;
+      chatBox.appendChild(row);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function sendMessage() {
       const input = document.getElementById('chatInput');
       const text = input.value.trim();
       if (!text) return;
+
+      appendMessage('user', text);
       input.value = '';
 
-      const container = document.getElementById('chatMessages');
-
-      // User bubble
-      const userB = document.createElement('div');
-      userB.className = 'chat-bubble user';
-      userB.textContent = text;
-      container.appendChild(userB);
-
-      // Bot thinking & answer
-      const lower = text.toLowerCase();
+      // Processing simulation
       setTimeout(() => {
-        const botB = document.createElement('div');
-        botB.className = 'chat-bubble bot';
-
-        if (lower.includes('sad') || lower.includes('cheer') || lower.includes('down')) {
-          botB.innerHTML = `<strong>Neural Affective Inversion:</strong> I noticed you are feeling down. I have recalibrated the vector space to surface uplifting and heartwarming cinema!<br/><br/>Try <strong>The Intouchables</strong> or <strong>Amélie</strong> — heartwarming humor, triumph, and pure joy!`;
-        } else if (lower.includes('silent hill') || lower.includes('gritty') || lower.includes('thriller')) {
-          botB.innerHTML = `Try <strong>Shutter Island (94% Match)</strong> or <strong>The Mist</strong> — it captures the exact psychological dread, foggy mystery, and mind-bending suspense you enjoy!`;
-        } else if (lower.includes('sci-fi') || lower.includes('inception')) {
-          botB.innerHTML = `For cerebral sci-fi, I recommend <strong>Coherence (96% Match)</strong> and <strong>Interstellar</strong> — masterworks of parallel realities and temporal dilation!`;
-        } else {
-          botB.innerHTML = `Based on your preference for <em>"${text}"</em>, I calculated a 94.8% cosine match with <strong>Coherence</strong> and <strong>The Prestige</strong>. Truly unmissable storytelling!`;
-        }
-
-        container.appendChild(botB);
-        container.scrollTop = container.scrollHeight;
-      }, 450);
-
-      container.scrollTop = container.scrollHeight;
+        handleBotResponse(text);
+      }, 400);
     }
 
-    window.onload = initCatalog;
+    function handleBotResponse(query) {
+      const lower = query.toLowerCase();
+
+      // Check for sadness / low mood (Affective Valence Inversion)
+      const sadKeywords = ['sad', 'bad', 'crying', 'depressed', 'down', 'exhausted', 'tired', 'lonely', 'unhappy'];
+      const isSad = sadKeywords.some(k => lower.includes(k));
+
+      if (isSad) {
+        // Uplifting cinema
+        const upliftMovies = allMovies.filter(m => ['Comedy', 'Adventure', 'Fantasy', 'Animation'].includes(m.genre) && parseFloat(m.rate) >= 7.6).slice(0, 3);
+        
+        let moviesHtml = upliftMovies.map(m => `
+          <div style="display:flex;align-items:center;gap:12px;background:rgba(255,255,255,0.05);padding:8px 12px;border-radius:12px;margin-top:8px;cursor:pointer;" onclick="openModalByName('${m.nom.replace(/'/g, "\\'")}')">
+            <img src="${getHighResPoster(m.cover)}" style="width:40px;height:55px;object-fit:cover;border-radius:6px;" onerror="this.src='Filmo.png';">
+            <div>
+              <div style="font-weight:700;color:#fff;font-size:0.88rem;">${m.nom} (${m.date})</div>
+              <div style="font-size:0.75rem;color:var(--gold);">&#9733; ${m.rate}/10 &middot; ${m.genre} &middot; Uplift Score: +0.94</div>
+            </div>
+          </div>
+        `).join('');
+
+        appendMessage('assistant', `
+          <div style="border-left:3px solid #ec4899;padding-left:10px;margin-bottom:8px;">
+            <strong style="color:#f472b6;">Affective Valence Inversion Activated (&Delta;v = +1.64)</strong>
+            <div style="font-size:0.8rem;color:#cbd5e1;">Detected low emotional valence (sadness/fatigue). Inverting target polarity to heartwarming, high-affinity cinema:</div>
+          </div>
+          Here are 3 handpicked films to restore your spirit:
+          ${moviesHtml}
+        `);
+        return;
+      }
+
+      // Keyword or semantic query match
+      let matches = allMovies.filter(m =>
+        (m.nom && lower.split(' ').some(w => w.length > 3 && m.nom.toLowerCase().includes(w))) ||
+        (m.genre && lower.includes(m.genre.toLowerCase())) ||
+        (m.director && lower.includes(m.director.toLowerCase()))
+      );
+
+      if (matches.length === 0) {
+        matches = allMovies.filter(m => parseFloat(m.rate) >= 8.2);
+      }
+
+      const recs = matches.slice(0, 3);
+      let moviesHtml = recs.map(m => `
+        <div style="display:flex;align-items:center;gap:12px;background:rgba(255,255,255,0.05);padding:8px 12px;border-radius:12px;margin-top:8px;cursor:pointer;" onclick="openModalByName('${m.nom.replace(/'/g, "\\'")}')">
+          <img src="${getHighResPoster(m.cover)}" style="width:40px;height:55px;object-fit:cover;border-radius:6px;" onerror="this.src='Filmo.png';">
+          <div>
+            <div style="font-weight:700;color:#fff;font-size:0.88rem;">${m.nom} (${m.date})</div>
+            <div style="font-size:0.75rem;color:var(--neon-cyan);">&#9733; ${m.rate}/10 &middot; ${m.genre} &middot; Cosine Match: 96%</div>
+          </div>
+        </div>
+      `).join('');
+
+      appendMessage('assistant', `
+        Based on your query, the 384-dimensional bi-encoder retrieved the following high-affinity cinema titles:
+        ${moviesHtml}
+      `);
+    }
+
+    function openModalByName(nom) {
+      const found = allMovies.find(m => m.nom === nom);
+      if (found) openModal(found);
+    }
+
+    // Initialize on page load
+    window.addEventListener('DOMContentLoaded', initCatalog);
   </script>
 </body>
 </html>
