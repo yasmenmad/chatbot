@@ -1,55 +1,53 @@
 <svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <!-- Modern Instagram / Duolingo Style Vibrant Sunset Gradient -->
-    <linearGradient id="filmoSquircleGrad" x1="16" y1="16" x2="112" y2="112" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#7928CA"/>
-      <stop offset="35%" stop-color="#FF0080"/>
-      <stop offset="70%" stop-color="#FF4D4D"/>
-      <stop offset="100%" stop-color="#FFB800"/>
+    <!-- Personalized Sunset Gradient -->
+    <linearGradient id="yasmenBg" x1="12" y1="12" x2="116" y2="116" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#4C1D95"/>
+      <stop offset="35%" stop-color="#7C3AED"/>
+      <stop offset="70%" stop-color="#DB2777"/>
+      <stop offset="100%" stop-color="#F59E0B"/>
     </linearGradient>
 
-    <!-- Inner Radial Glow for Depth -->
-    <radialGradient id="squircleHighlight" cx="30%" cy="25%" r="70%">
-      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.35"/>
-      <stop offset="50%" stop-color="#FFFFFF" stop-opacity="0"/>
+    <!-- Golden Monogram Gradient -->
+    <linearGradient id="goldMonogram" x1="32" y1="28" x2="96" y2="100" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="45%" stop-color="#FDE68A"/>
+      <stop offset="85%" stop-color="#F59E0B"/>
+      <stop offset="100%" stop-color="#D97706"/>
+    </linearGradient>
+
+    <!-- Subtle Inner Glow -->
+    <radialGradient id="monogramGlow" cx="50%" cy="45%" r="60%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
     </radialGradient>
 
-    <!-- Glass Glyph Gradient -->
-    <linearGradient id="glyphGrad" x1="40" y1="36" x2="88" y2="92" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#FFFFFF"/>
-      <stop offset="100%" stop-color="#F1F5F9"/>
-    </linearGradient>
-
-    <!-- Drop Shadow Filter -->
-    <filter id="appShadow" x="-10%" y="-10%" width="120%" height="130%" filterUnits="userSpaceOnUse">
-      <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#7928CA" flood-opacity="0.38"/>
-      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.15"/>
-    </filter>
-    
-    <filter id="lensGlow" x="-30%" y="-30%" width="160%" height="160%">
-      <feGaussianBlur stdDeviation="3" result="blur"/>
-      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    <filter id="iconShadow" x="-15%" y="-15%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#4C1D95" flood-opacity="0.45"/>
     </filter>
   </defs>
 
-  <!-- App Icon Squircle (Instagram / iOS Curvature) -->
-  <rect x="8" y="8" width="112" height="112" rx="26" ry="26" fill="url(#filmoSquircleGrad)" filter="url(#appShadow)"/>
-  <rect x="8" y="8" width="112" height="112" rx="26" ry="26" fill="url(#squircleHighlight)"/>
+  <!-- Squircle Base -->
+  <rect x="8" y="8" width="112" height="112" rx="26" ry="26" fill="url(#yasmenBg)" filter="url(#iconShadow)"/>
+  <rect x="8" y="8" width="112" height="112" rx="26" ry="26" fill="url(#monogramGlow)"/>
   <rect x="8.5" y="8.5" width="111" height="111" rx="25.5" ry="25.5" stroke="#FFFFFF" stroke-opacity="0.25" stroke-width="1"/>
 
-  <!-- Minimalist Cinema Prism Glyph -->
-  <!-- Outer Rounded Camera Body / Frame -->
-  <rect x="32" y="32" width="64" height="64" rx="18" stroke="url(#glyphGrad)" stroke-width="5.5" fill="none"/>
-  
-  <!-- Central Aperture Cinema Iris / Playback Prism -->
-  <circle cx="64" cy="64" r="17" stroke="url(#glyphGrad)" stroke-width="5.5" fill="none"/>
-  
-  <!-- Dynamic Neural Play Triangle inside Iris -->
-  <polygon points="60,56 72,64 60,72" fill="#FFFFFF"/>
-  
-  <!-- Film Spool Optical Notches (Top Right & Top Left Indicator Dots) -->
-  <circle cx="81" cy="45" r="4" fill="#FFFFFF" filter="url(#lensGlow)"/>
-  
-  <!-- Bottom Neural Spark Arc -->
-  <path d="M47 81C52 84 58 85.5 64 85.5C70 85.5 76 84 81 81" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity="0.8"/>
+  <!-- Optical Cinema Iris Circle -->
+  <circle cx="64" cy="62" r="32" stroke="url(#goldMonogram)" stroke-width="3" stroke-dasharray="6 3" stroke-opacity="0.7"/>
+
+  <!-- Personalized Monogram "Y" Intertwined with Cinema Aperture -->
+  <!-- Left diagonal branch of Y -->
+  <path d="M42 38L64 64" stroke="url(#goldMonogram)" stroke-width="6.5" stroke-linecap="round"/>
+  <!-- Right diagonal branch of Y -->
+  <path d="M86 38L64 64" stroke="url(#goldMonogram)" stroke-width="6.5" stroke-linecap="round"/>
+  <!-- Central vertical stem of Y -->
+  <path d="M64 64V88" stroke="url(#goldMonogram)" stroke-width="6.5" stroke-linecap="round"/>
+
+  <!-- Cinema Reel Notches / Star Accents -->
+  <circle cx="42" cy="38" r="4.5" fill="#FFFFFF"/>
+  <circle cx="86" cy="38" r="4.5" fill="#FFFFFF"/>
+  <circle cx="64" cy="88" r="4.5" fill="#FDE68A"/>
+
+  <!-- Center Playback Lens Spark -->
+  <circle cx="64" cy="64" r="5" fill="#FFFFFF"/>
 </svg>
